@@ -1,0 +1,5 @@
+artifact_id,artifact_type,provider,url,version_or_commit,license_spdx,license_status,distribution_mode,feature_need,correctness_evidence,security_maintenance,decision,reviewed_date,reviewer,notes
+ki-cad-cli,external-tool,KiCad,https://docs.kicad.org/master/en/cli/cli.html,,UNVERIFIED,REVIEW_REQUIRED,unknown,reference ERC/export,not-evaluated,not-evaluated,CANDIDATE,,,Do not copy binary or vendor assets
+librepcb-libraries,data-library,LibrePCB,https://librepcb.org/license/,,CC0-1.0,VERIFY_EACH_SOURCE,unknown,component semantic data,not-evaluated,not-evaluated,CANDIDATE,,,Official libraries may be CC0; verify individual library terms
+react-flow,web-library,React Flow,https://reactflow.dev/,,MIT,VERIFY_VERSION,unknown,interactive 2D editor,not-evaluated,not-evaluated,CANDIDATE,,,No frontend choice approved
+ngspice,simulator,ngspice,https://ngspice.sourceforge.io/,,MIXED_VERIFY_SUBCOMPONENTS,REVIEW_REQUIRED,unknown,only if physical model needed,not-evaluated,not-evaluated,CANDIDATE,,,Not an MCU firmware simulator

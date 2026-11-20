@@ -1,0 +1,4 @@
+-r requirements-core001a.txt
+networkx==3.7 --hash=sha256:e3fd2c13a7814cee3746340d8d7f8598a67f16a58bf47fb7f8793fab6efca1b0
+hypothesis==6.170.17 --hash=sha256:3353a34a5f77be65aa2def29ed6229190b0b18209111eb2544d19416e5bcfb22
+sortedcontainers==2.4.0 --hash=sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0
