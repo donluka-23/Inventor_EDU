@@ -36,3 +36,9 @@ Format for further entries: date; task ID; observable changes; test commands/out
 
 - Generated reviewed two-role physical assignments through real CORE topology and GPIO verification. Observed two hard rejections and one incomplete alternative in the reviewed fixture.
 - S01–S18 and all 72 discovered regression tests passed. Separate authentic GPIO source admission passed. See the [execution report](../reports/SYN-001-REPORT.md) for counts, uncertainty and reproducible traces. Owner review is pending.
+
+## 2026-11-20 — CAP-001
+
+- Archived all four owner-provided Research F–I files byte-for-byte in one dedicated commit.
+- Discovered physical GPIO contacts through the existing catalog and verifier. The discovered domains drove the existing SYN-001 generator, which evaluated 20 assignments.
+- All 89 regression tests and the separate authentic GPIO source gate passed. See the [execution report](../reports/CAP-001-REPORT.md). Owner review is pending.

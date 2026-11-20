@@ -14,6 +14,7 @@
 - P6 demo: NOT_STARTED.
 - DEMO-001: Headless HCSR04 GPIO wiring bridge implemented and verified in the test-only fixture scope. The [owner-frozen master plan](prototype/MASTER_PLAN.md) and [execution report](../reports/DEMO-001-REPORT.md) record the result. Interactive and electrical demo gates remain unmet.
 - SYN-001: Bounded headless two-role candidate generation implemented. S01–S18 passed in the test-only scope. The GPIO18 Trig alternative passed direction and retained unresolved board availability, electrical and firmware checks. Owner acceptance is pending. See the [execution report](../reports/SYN-001-REPORT.md).
+- CAP-001: Evidence-backed terminal discovery implemented in the test-only scope. Each role discovered five physical contacts. The existing SYN-001 engine evaluated 20 assignments with 11 known hard rejections and 9 alternatives with unresolved obligations. The four owner-provided Research F–I originals are tracked in a dedicated archival commit. Owner acceptance is pending. See the [execution report](../reports/CAP-001-REPORT.md).
 - Installed CORE-001A dependencies are pinned and recorded in the OSS register for review. Distribution clearance remains pending.
 - Positive GPIO findings require independently reviewed catalog and fact-set pins and typed v1.1 mapping evidence. Formal decision documentation, serializer validation, electrical model scope and UI framework remain open. ADR-0002 remains PROPOSED / HOLD. CORE-001C is awaiting separate authorization.
 
