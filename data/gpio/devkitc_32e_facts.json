@@ -1,0 +1,214 @@
+{
+  "catalog_digest": "sha256:356732040b6bd762e8c604ae63c3600df5da225cc938af6dff688b25aad4c57b",
+  "factset_digest": "sha256:890f608028990e8f80f9ee48cd4388e58df1d160acc7edf2bf61445df8556d16",
+  "mappings": [
+    {
+      "claim_id": "map-J2.5",
+      "locator": "Header Block J2.5; ordering row -32E",
+      "review": "approved",
+      "source_ids": [
+        "board-header",
+        "board-ordering"
+      ],
+      "target": "GPIO34",
+      "terminal_id": "J2.5"
+    },
+    {
+      "claim_id": "map-J3.9",
+      "locator": "Header Block J3.9; ordering row -32E",
+      "review": "approved",
+      "source_ids": [
+        "board-header",
+        "board-ordering"
+      ],
+      "target": "GPIO18",
+      "terminal_id": "J3.9"
+    },
+    {
+      "claim_id": "map-J3.8",
+      "locator": "Header Block J3.8; ordering row -32E",
+      "review": "approved",
+      "source_ids": [
+        "board-header",
+        "board-ordering"
+      ],
+      "target": "GPIO19",
+      "terminal_id": "J3.8"
+    },
+    {
+      "claim_id": "map-J3.19",
+      "locator": "Header Block J3.19; ordering row -32E",
+      "review": "approved",
+      "source_ids": [
+        "board-header",
+        "board-ordering"
+      ],
+      "target": "GPIO6",
+      "terminal_id": "J3.19"
+    },
+    {
+      "claim_id": "map-J3.14",
+      "locator": "Header Block J3.14; ordering row -32E",
+      "review": "approved",
+      "source_ids": [
+        "board-header",
+        "board-ordering"
+      ],
+      "target": "GPIO0",
+      "terminal_id": "J3.14"
+    }
+  ],
+  "resources": [
+    {
+      "claim_id": "board-flash-clock",
+      "locator": "Board J3 row 19 and Header Block note 2, exact -32E order row",
+      "operating_state": "ACTIVE",
+      "reason": "SPI flash uses the clock contact on this documented board",
+      "reservation": "reserved",
+      "review": "approved",
+      "source_ids": [
+        "board-header",
+        "board-ordering",
+        "sdk-gpio"
+      ],
+      "target": "GPIO6"
+    }
+  ],
+  "review": "TEST_ONLY_SOURCE_REVIEWED",
+  "schema_version": "1.0",
+  "scope": {
+    "board_family": "ESP32-DevKitC",
+    "board_revision": "V4",
+    "definition_digest": "sha256:8fadb7e6b1c95df25e43a4bd7aaeafd721fd05cc4415e715c5c1ffb60a10d2a9",
+    "definition_id": "esp32-devkitc-32e-v4",
+    "module": "ESP32-WROOM-32E",
+    "orderable_part": "ESP32-DevKitC-32E",
+    "profile_scope": "Documented V4 / -32E / ESP32-WROOM-32E",
+    "silicon": "ESP32"
+  },
+  "silicon": [
+    {
+      "claim_id": "silicon-GPIO34",
+      "input_allowed": true,
+      "locator": "soc_caps.h lines 182?184; ESP32 GPIO Summary GPI note for GPIO34 software pulls",
+      "output_allowed": false,
+      "pullup_allowed": false,
+      "review": "approved",
+      "silicon": "ESP32",
+      "source_ids": [
+        "sdk-mask",
+        "sdk-gpio"
+      ],
+      "target": "GPIO34"
+    },
+    {
+      "claim_id": "silicon-GPIO18",
+      "input_allowed": true,
+      "locator": "soc_caps.h lines 182?184; ESP32 GPIO Summary GPI note for GPIO34 software pulls",
+      "output_allowed": true,
+      "pullup_allowed": null,
+      "review": "approved",
+      "silicon": "ESP32",
+      "source_ids": [
+        "sdk-mask"
+      ],
+      "target": "GPIO18"
+    },
+    {
+      "claim_id": "silicon-GPIO19",
+      "input_allowed": true,
+      "locator": "soc_caps.h lines 182?184; ESP32 GPIO Summary GPI note for GPIO34 software pulls",
+      "output_allowed": true,
+      "pullup_allowed": null,
+      "review": "approved",
+      "silicon": "ESP32",
+      "source_ids": [
+        "sdk-mask"
+      ],
+      "target": "GPIO19"
+    },
+    {
+      "claim_id": "silicon-GPIO6",
+      "input_allowed": true,
+      "locator": "soc_caps.h lines 182?184; ESP32 GPIO Summary GPI note for GPIO34 software pulls",
+      "output_allowed": true,
+      "pullup_allowed": null,
+      "review": "approved",
+      "silicon": "ESP32",
+      "source_ids": [
+        "sdk-mask"
+      ],
+      "target": "GPIO6"
+    },
+    {
+      "claim_id": "silicon-GPIO0",
+      "input_allowed": true,
+      "locator": "soc_caps.h lines 182?184; ESP32 GPIO Summary GPI note for GPIO34 software pulls",
+      "output_allowed": true,
+      "pullup_allowed": null,
+      "review": "approved",
+      "silicon": "ESP32",
+      "source_ids": [
+        "sdk-mask"
+      ],
+      "target": "GPIO0"
+    }
+  ],
+  "sources": [
+    {
+      "artifact_sha256": "sha256:adfe725856bd8e8453c867038ee03a1845d7fa4ed43acc73ffb1038e9010e713",
+      "revision": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+      "rights": "Apache-2.0 header, fact-only use",
+      "source_id": "sdk-mask",
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/880a203ae603d08a94d06aa01e0d6761958e5e9e/components/soc/esp32/include/soc/soc_caps.h"
+    },
+    {
+      "artifact_sha256": "sha256:cdacf70a69b8cb2bfe4f4abb3e9b37e9ca06509e71922e72c05982d4332fd66b",
+      "revision": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+      "rights": "Espressif documentation, link/fact only",
+      "source_id": "sdk-gpio",
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/880a203ae603d08a94d06aa01e0d6761958e5e9e/docs/en/api-reference/peripherals/gpio/esp32.inc"
+    },
+    {
+      "artifact_sha256": "sha256:3c6d01f004ad68879fb8fbba513f97ca6887931ec02110e1351f998409ff9a74",
+      "revision": "880a203ae603d08a94d06aa01e0d6761958e5e9e",
+      "rights": "Espressif documentation, link/fact only",
+      "source_id": "sdk-reference",
+      "url": "https://raw.githubusercontent.com/espressif/esp-idf/880a203ae603d08a94d06aa01e0d6761958e5e9e/docs/en/api-reference/peripherals/gpio.rst"
+    },
+    {
+      "artifact_sha256": "sha256:a6e89080a3a5f9b99f33e63e7a0d9788fa858ad11cd25feffbb9e4df15229f1b",
+      "revision": "da43a78cfdd2a1122047bb5617ca79e09fd687b2",
+      "rights": "Espressif documentation, link/fact only",
+      "source_id": "board-header",
+      "url": "https://raw.githubusercontent.com/espressif/esp-dev-kits/da43a78cfdd2a1122047bb5617ca79e09fd687b2/docs/en/esp32-devkitc/user_guide.rst"
+    },
+    {
+      "artifact_sha256": "sha256:673ce22fc37b60afe6286a28d3bd1bb617b0fb2812609e086ba3577f72987e8b",
+      "revision": "da43a78cfdd2a1122047bb5617ca79e09fd687b2",
+      "rights": "Espressif documentation, link/fact only",
+      "source_id": "board-ordering",
+      "url": "https://raw.githubusercontent.com/espressif/esp-dev-kits/da43a78cfdd2a1122047bb5617ca79e09fd687b2/docs/en/esp32-devkitc/ordering-info.inc"
+    }
+  ],
+  "straps": [
+    {
+      "boot_state": "RESET",
+      "claim_id": "strap-gpio0",
+      "condition": "Level sampled at startup; source facts give no observed reset context",
+      "is_strapping": true,
+      "locator": "ESP32 GPIO Summary Strapping pin note; board J3 row 14",
+      "prerequisites": [
+        "reset_level",
+        "external_pull",
+        "sampling_timing"
+      ],
+      "review": "approved",
+      "source_ids": [
+        "sdk-gpio",
+        "board-header"
+      ],
+      "target": "GPIO0"
+    }
+  ]
+}
