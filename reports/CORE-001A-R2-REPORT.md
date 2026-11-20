@@ -116,3 +116,11 @@ The serializer validation issue and difference between repository findings `PASS
 ## J. Owner review
 
 Review the R2 report and the verified branch. CORE-001B and CORE-001C still require their own authorization and evidence contracts. R2 acceptance is limited to the typed catalog admission and compatibility behavior tested here.
+
+## Verified publication
+
+The reviewed R2 implementation, tests and documentation were committed as `3e63368196f912fff1418c0a3bb45e6464d54f13` (`fix(core-001a-r2): require typed mapping evidence in catalog v1.1`). Staging matched the ten authorized paths, the staged whitespace check passed, and a staged credential-pattern scan returned no hits. The unrelated Research E file remained untracked.
+
+`git push -u origin codex/core-001a-r2-typed-mapping` exited 0 and set upstream tracking. `git ls-remote --heads origin refs/heads/codex/core-001a-r2-typed-mapping` then returned `3e63368196f912fff1418c0a3bb45e6464d54f13` for the exact task ref. This follow-up report entry records the already-observed publication. The task history remains separate from `main`.
+
+**Final R2 result: PASS.**
