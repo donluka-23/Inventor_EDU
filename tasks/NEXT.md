@@ -12,5 +12,6 @@
 - CORE-001C-E1 verified bounded voltage-divider calculations and assumption-only HIGH margins. Owner review is pending. Full CORE-001C remains outside the E1 authorization. See the [execution report](../reports/CORE-001C-E1-REPORT.md).
 - CORE-001C-E2 verified the test-only virtual motif and conditional E1 binding. Full electrical compatibility remains outside E2. Owner review is pending. See the [execution report](../reports/CORE-001C-E2-REPORT.md).
 - EDU-T1 added the bounded independent transfer item with test-only scoring. Owner and Georgian wording review remain pending. See the [execution report](../reports/EDU-T1-REPORT.md).
+- DS-002B revision 2 is PARTIAL_V4_ASSET_PENDING. Review the [execution report and browser evidence](../reports/DS-002B-REV2-REPORT.md). Exact WROOM-32E asset fit and visual acceptance remain pending. Any integration requires a separate owner decision.
 - No next implementation task is authorized. CORE-001C and further GPIO work require separate owner authorization. `tasks/P1-001_MODEL_FIT.md` remains a historical research question.
 - Codex never selects the next task, promotes a proposed decision or starts an item simply because it appears here.

@@ -67,3 +67,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 
 - Added the single independent GPIO input and electrical-scope item to the test-only loopback preview. Verified fresh CORE/B scoring, withholding of pre-answer evidence, and rejection of repeated and stale submissions.
 - Georgian language review remains pending. See the [execution report](../reports/EDU-T1-REPORT.md). Owner review is pending.
+
+## 2026-11-21 — DS-002B revision 2
+
+- Tested the isolated component canvas with live Wokwi Elements, nominal V4 contact geometry, genuine pointer and keyboard wiring, and deterministic visual workspace interchange.
+- Recorded PARTIAL_V4_ASSET_PENDING. The nominal board asset lacks exact WROOM-32E provenance. See the [execution report](../reports/DS-002B-REV2-REPORT.md) for browser evidence and open owner decisions.

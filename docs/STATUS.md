@@ -1,6 +1,6 @@
 # Observed project status
 
-- Snapshot date: 2026-11-20.
+- Snapshot date: 2026-11-21.
 - Product: Georgian-first beginner electronics workspace with scoped interactive wiring validation.
 - GitHub baseline is published on `main`. The original starter governance task `BOOT-001` was not run as a separate task.
 - P1 / CORE-001A: IMPLEMENTED and independently audited with restrictions. Deterministic connectivity is available for reviewed catalogs and validated snapshots. The independent audit is on `codex/core-001a-acceptance-audit`.
@@ -20,6 +20,7 @@
 - CORE-001C-E1: Exact unloaded-divider mathematics and conditional HIGH margin verified in an isolated model. Hardware compatibility and physical divider provenance remain unestablished. See the [execution report](../reports/CORE-001C-E1-REPORT.md).
 - CORE-001C-E2: The test-only virtual divider matches three canonical CORE nets and links the conditional E1 model. Two rewired cases withheld math, and restoring the wire recovered the original digests. Actual component values and hardware compatibility remain unestablished. See the [execution report](../reports/CORE-001C-E2-REPORT.md).
 - EDU-T1: The loopback preview presents one independent Echo input and electrical-scope item after a verified practice correction. Submitted choices trigger fresh GPIO verification, and each local attempt allows one result. Language review remains pending. See the [execution report](../reports/EDU-T1-REPORT.md).
+- DS-002B revision 2: PARTIAL_V4_ASSET_PENDING. The isolated browser prototype supports visual contact selection and wire editing on a nominal V4 shell and three Wokwi Elements. Exact WROOM-32E asset fit, canonical bindings, and owner visual acceptance remain open. See the [execution report](../reports/DS-002B-REV2-REPORT.md).
 - Installed CORE-001A dependencies are pinned and recorded in the OSS register for review. Distribution clearance remains pending.
 - Positive GPIO findings require independently reviewed catalog and fact-set pins and typed v1.1 mapping evidence. Formal decision documentation, serializer validation, electrical model scope and UI framework remain open. ADR-0002 remains PROPOSED / HOLD. CORE-001C is awaiting separate authorization.
 
