@@ -78,3 +78,13 @@ The audit probes used PowerShell stdin with `& $exe -B -`. They called the publi
 Updated `AGENTS.md` and `docs/SESSION_PROTOCOL.md` in the baseline. The lifecycle now covers repository/origin verification, fetching, preserving existing changes, task branches, focused tests, approved tracking updates, staged review, commit/push/remote verification, checkpoints and protected `main`. The documentation lifecycle requires cross-checking authorized tasks, actual results, canonical status, next-task pointer, prior reports, decisions and OSS state.
 
 Reconciliation found `docs/STATUS.md` still describes a documentation-only starter and no authorized P1 execution, and `tasks/NEXT.md` still proposes the initial starter process and says P1 is on hold. The previous report and current audit show that the connectivity core exists, its 11 tests passed, and there is now a GitHub baseline. Those tracking files stay unchanged because the current strict write list excludes them and AGENTS requires explicit authorization for their updates. A future authorized correction should record the observed core and its audit restrictions in `docs/STATUS.md`, and revise `tasks/NEXT.md` to point to owner adjudication without authorizing B or C. ADR-0002 remains proposed. `governance/OSS_REGISTER.csv` remains pending owner reconciliation for the eight installed artifacts described above. Historical reports, raw research, decisions, ADRs, roadmap, task log, templates, and other Markdown were preserved because the audit changes neither their governed decisions nor their authorized responsibilities.
+
+## Audit branch publication
+
+The substantive audit commit is **`166e431cfcb21206b8e3559bd4645d67422a4c80`** (`test(core-001a): record independent connectivity acceptance audit`). `git push -u origin codex/core-001a-acceptance-audit` exited 0 and set upstream tracking. The subsequent `git ls-remote --heads origin refs/heads/codex/core-001a-acceptance-audit` returned:
+
+```text
+166e431cfcb21206b8e3559bd4645d67422a4c80    refs/heads/codex/core-001a-acceptance-audit
+```
+
+This publication record is a follow-up documentation commit so it can cite the already observed SHA and push outcome. Both branches use the authorized origin. The audit branch was kept separate from `main`. No synchronization or authentication blocker was observed.
