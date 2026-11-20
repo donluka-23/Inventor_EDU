@@ -134,3 +134,11 @@ Keep independently reviewed expected catalog and factset pins, explicit producer
 ## J. Owner review
 
 Review the bounded algorithm and source facts with the ledger, then independently authorize trusted deployment pins and applicability limits if needed. Keep firmware observation, GPIO electrical checks and any new board or SDK version behind separate task authority.
+
+## Verified publication
+
+The reviewed implementation was committed as `96d6f4838b5cd2dc044f6b6db764be280a6863a5` (`feat(core-001b-01): verify source-backed GPIO capability`). The staged scope matched the thirteen authorized paths. Whitespace checks passed for new work, and the exact handoff bytes were preserved. Credential-pattern and binary-artifact checks returned no findings.
+
+`git push -u origin codex/core-001b-01-gpio-capability` exited 0 and set upstream tracking. `git ls-remote --heads origin refs/heads/codex/core-001b-01-gpio-capability` then returned `96d6f4838b5cd2dc044f6b6db764be280a6863a5` for the exact branch. This report records the already-observed publication in a follow-up commit. The task remains separate from `main`.
+
+**Final result: PASS in the authorized test scope.**
