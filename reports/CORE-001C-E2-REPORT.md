@@ -143,3 +143,7 @@ With the typed inputs prebuilt, five `timeit.repeat` batches of 100 calls took 0
 | `docs/prototype/MASTER_PLAN.md` | Advanced 1.5 to 1.6 and added only the E2 row |
 
 Full CORE-001C authorization, prior milestones, fixed non-goals, opportunities and risks remain as recorded. No existing engine, test, source material, dependency, license, local UI or multilingual review record changed. No architecture decision is required for the bounded result. Exact hardware identities beyond the reviewed context, actual resistor data, approved source drive and receiver conditions, electrical acceptance, powered-off behavior and transients remain unverified or outside scope. Owner acceptance is pending.
+
+## G. Git publication
+
+Pushed implementation commit `51341cc80430f519de4835e0267ef1fc90bedb85` with `git push -u origin codex/core-001c-e2-divider-topology`. Live `git ls-remote` and a fetched ref matched that exact SHA. The E1 and Research F–I archival commits were ancestors, and archived blobs matched. Remote `main` remained at `b1db3e947d04508ca22d4ba55e3172616620bad2`. Verified the authorized file manifest, frozen task bytes, staged whitespace and credential patterns, documentation links and narrow master-plan diff. This report-only follow-up records the verified implementation push.
