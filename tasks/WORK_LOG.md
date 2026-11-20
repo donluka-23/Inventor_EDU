@@ -52,3 +52,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 
 - Added the bounded local action controller and Georgian loopback forms. Exercised actual source inspection, recomputation, hint withdrawal and reset through HTTP form submissions.
 - Preserved the EDU wording gate. The review packet has blank human-review fields. See the [execution report](../reports/CHAT-001-REPORT.md). Owner review is pending.
+
+## 2026-11-20 — CORE-001C-E1
+
+- Verified exact ideal DC divider equations, tolerance bounds and conditional HIGH margins. The existing two-component CORE snapshot serves only as a digest association.
+- Preserved distinct unresolved hardware evidence and physics scopes. See the [execution report](../reports/CORE-001C-E1-REPORT.md). Owner review is pending.

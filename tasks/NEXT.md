@@ -9,5 +9,6 @@
 - CAP-001 completed the bounded GPIO discovery and Research F–I archival gates. Owner review of the [execution report](../reports/CAP-001-REPORT.md) is pending. The [master plan](../docs/prototype/MASTER_PLAN.md) records this experiment.
 - EDU-001 completed the test-only engineering replay. Georgian wording review and owner acceptance remain pending. See the [execution report](../reports/EDU-001-REPORT.md).
 - CHAT-001 recorded a test-only loopback learning preview and consolidated the Georgian wording for review. Owner review remains pending. See the [execution report](../reports/CHAT-001-REPORT.md).
+- CORE-001C-E1 verified bounded voltage-divider calculations and assumption-only HIGH margins. Owner review is pending. Full CORE-001C remains outside the E1 authorization. See the [execution report](../reports/CORE-001C-E1-REPORT.md).
 - No next implementation task is authorized. CORE-001C and further GPIO work require separate owner authorization. `tasks/P1-001_MODEL_FIT.md` remains a historical research question.
 - Codex never selects the next task, promotes a proposed decision or starts an item simply because it appears here.
