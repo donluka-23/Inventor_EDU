@@ -107,3 +107,11 @@ The manufacturer material verifies a two-termination 0603 profile and source-rep
 The archived rights evidence was evaluated before creating the normalized candidate. The factual OSS register row is **REVIEW**, limited to these exact CC0 files, internal use and fact-only output. No vendor material was granted distribution rights or bundled. The research source was the existing authorized project input, not a downloaded third-party dataset.
 
 Replay uses exact source commit, pinned hashes, existing environment and the ledger's instructions. Rollback uses the preserved R2 baseline or an owner-approved new revert. Snapshot and catalog compatibility have no migration requirement for existing projects. Attach this report and the source ledger to the architecture conversation. No B/C implementation is authorized by this report.
+
+## Verified publication
+
+The reviewed pilot was committed as `767f10ef83b04583b2eceab02117a27fc80e1955` (`feat(data-001): pilot pinned LibrePCB resistor structure`). Staged paths matched the twelve authorized files. The source research, task handoff and normalized catalog blob matched their local bytes. Whitespace checks passed for new work. Original Markdown line breaks in the two verbatim records were preserved. The credential-pattern and binary-artifact checks returned no findings.
+
+`git push -u origin codex/data-001-component-source-pilot` exited 0 and set upstream tracking. Immediately after that push, `git ls-remote --heads origin refs/heads/codex/data-001-component-source-pilot` returned `767f10ef83b04583b2eceab02117a27fc80e1955` for the exact branch. This follow-up records the already-observed push. The task branch remains separate from `main`.
+
+**Final status: PARTIAL. Recommendation: NARROW.**
