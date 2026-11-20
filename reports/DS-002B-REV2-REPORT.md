@@ -58,7 +58,7 @@ Decision, ADR, OSS register, existing protocol, research, master plan, CORE code
 | D2R-19 | PASS | Typecheck, build, unit and Chromium commands completed. Initial failed runs recorded below. |
 | D2R-20 | PASS, capture and measurement | Native Chromium screenshots and observed measurements below. Owner aesthetic review is pending. |
 | D2R-21 | PASS | Exact source rights and locked package integrities recorded. Wokwi Boards and Espressif illustrations remain inspection references. |
-| D2R-22 | See session handoff | Task branch and protected-main verification are reported with the actual published SHA in the session handoff. |
+| D2R-22 | PASS | Reviewed the 31-file scope and published the implementation checkpoint. The live task, predecessor and main refs matched the expected SHAs in the verification below. |
 
 ## E. Commands and observed terminal results
 
@@ -125,3 +125,17 @@ See the [asset and license ledger](../prototypes/ds-002b/ASSET_AND_LICENSE_LEDGE
 ## I. Rollback and review handoff
 
 This experiment is isolated to its task branch. The predecessor needs no new dependencies or migration. For architectural review, attach this Markdown report and the three browser evidence PNGs. The owner should inspect the running canvas and decide whether to keep or replace the nominal board shell.
+
+## J. Git publication evidence
+
+`git diff --cached --check` passed. The staged manifest contained 31 authorized files, all report links resolved, and the reviewed text contained no credential signatures. The projected raster, contact JSON and exact handoff also matched the reviewed bytes in the staging index. The pre-push live query found no overlapping task branch.
+
+`git push --set-upstream origin codex/ds-002b-exact-component-canvas-r2` created and tracked the task branch. The follow-up live query and fetch verified the implementation checkpoint and its unchanged predecessor and main refs.
+
+| Remote branch | Independently verified SHA |
+| --- | --- |
+| `codex/ds-002b-exact-component-canvas-r2` | `3c1081c0e250f0278d70b13866f279e3b63a7d88` (implementation checkpoint) |
+| `codex/edu-t1-independent-transfer` | `4e6daa0b60937e5863bb754b9293a6504174bb5a` |
+| `main` | `b1db3e947d04508ca22d4ba55e3172616620bad2` |
+
+`git merge-base --is-ancestor` confirmed the verified EDU-T1 predecessor is an ancestor of the fetched task branch. This report records the implementation checkpoint's publication evidence in a documentation-only follow-up.
