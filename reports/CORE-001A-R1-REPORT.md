@@ -166,3 +166,9 @@ Git preflight used `git fetch origin`, `git branch -avv`, `git ls-remote --symre
 ## J. Owner review
 
 Attach both standalone reports to the architecture conversation. The minimum decision is the approved independent mapping kind representation, catalog version and migration policy, and external provenance admission. Positive mapping-dependent CORE-001B findings remain on hold. Separate authorization is required for CORE-001B and CORE-001C.
+
+## Verified Git publication
+
+The reviewed R1 deliverables, tracking updates and tests were committed as `a53363447256bd3663b55f70b8a4ac81e90dbc99` (`test(core-001a-r1): audit conformance and verify v1 evidence checks`). The staged scope check matched the seven paths above, `git diff --cached --check` passed, and a staged pattern scan found no credential markers. Raw research was outside the staged paths.
+
+`git push -u origin codex/core-001a-r1-research-conformance` exited 0 and configured upstream tracking. Immediately following push, `git ls-remote --heads origin refs/heads/codex/core-001a-r1-research-conformance` returned `a53363447256bd3663b55f70b8a4ac81e90dbc99` for the exact task ref. This verification entry follows that substantive commit so it can record the observed SHA and outcome. The task branch is separate from `main`. The workspace's unrelated untracked Research E file was preserved.
