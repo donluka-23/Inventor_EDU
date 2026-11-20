@@ -74,3 +74,11 @@ Test catalog pin: `sha256:356732040b6bd762e8c604ae63c3600df5da225cc938af6dff688b
 ## G–J. Deviations, OSS, rollback and owner review
 
 No roadmap change requests or blockers were identified. Frontend, Georgian goal parsing, commercial validation, firmware observation and electrical computation were outside scope. No new source, OSS dependencies or assets were introduced. To roll back, use the preserved predecessor or an owner-authorized revert. Review the headless result and separately authorize any later milestone or deployment trust decision.
+
+## Verified publication
+
+Implementation commit: `83fe08c96c3defb7eebc3e5abbd2b806e9e5da2d`. Staging was limited to the eight authorized files. The staged handoff and master-plan bytes matched the working files. Whitespace, credential-pattern and binary checks passed, with frozen Markdown line breaks preserved.
+
+`git push -u origin codex/demo-001-scenario-bridge` exited 0 and set upstream tracking. The exact branch returned the implementation SHA in `git ls-remote --heads origin refs/heads/codex/demo-001-scenario-bridge`. This follow-up records that observed publication. The task branch remains separate from `main`.
+
+**Final outcome: PASS for the headless bridge.**
