@@ -3,7 +3,7 @@
 ## Plan metadata
 
 - Plan ID: `INVENTOR-EDU-PROTOTYPE`
-- Plan version: `1.5`
+- Plan version: `1.6`
 - State: `OWNER-FROZEN`
 - Primary concept: `BOUNDED_GOAL_TO_CIRCUIT`
 - First lesson: `HCSR04_GPIO_WIRING`
@@ -25,6 +25,7 @@
 | DEMO-005 | Bounded Georgian goal interpretation and project setup | Deterministic requirements, explicit ambiguity and reproducibility | PLANNED / NOT_AUTHORIZED |
 | CORE-001C | Source-backed bounded electrical verification | Independently approved numeric facts, conditions and oracles | PLANNED / NOT_AUTHORIZED |
 | CORE-001C-E1 | Isolated voltage-divider mathematics experiment | Exact model-only voltage range and conditional HIGH margin with evidence limits | AUTHORIZED / MODEL_ONLY |
+| CORE-001C-E2 | Canonical virtual divider motif experiment | Exact CORE net partition, conditional E1 binding and withheld math on wrong wiring | AUTHORIZED / TEST_ONLY |
 | DEMO-006 | Complete demo acceptance and pilot evidence | Existing DEMO.md conditions, independent testing and actual users | PLANNED / NOT_AUTHORIZED |
 
 Milestone IDs are planning references, not execution permissions.

@@ -57,3 +57,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 
 - Verified exact ideal DC divider equations, tolerance bounds and conditional HIGH margins. The existing two-component CORE snapshot serves only as a digest association.
 - Preserved distinct unresolved hardware evidence and physics scopes. See the [execution report](../reports/CORE-001C-E1-REPORT.md). Owner review is pending.
+
+## 2026-11-21 — CORE-001C-E2
+
+- Admitted an in-memory composite catalog with exact reviewed source-context definitions and two synthetic resistor bodies. Verified the canonical motif, two independent wiring rejections and exact recovery after restoring a conductor.
+- E1 math remains conditional, and actual component values and hardware compatibility remain unestablished. See the [execution report](../reports/CORE-001C-E2-REPORT.md). Owner review is pending.
