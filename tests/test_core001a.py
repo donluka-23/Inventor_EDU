@@ -225,3 +225,47 @@ class CoreTests(unittest.TestCase):
         invalid_ref = t("absent", "A") if invalid == "instance" else t(nodes[i].instance_id, "absent")
         self.error("UNKNOWN_" + invalid.upper(), self.snapshot,
                    wires + [wire("invalid", nodes[i], invalid_ref)], ("j", "k"))
+
+    def test_mapping_rejects_resealed_mismatched_or_unapproved_evidence(self):
+        cases = (
+            ("wrong target ID", {"value": "GPIO19"}),
+            ("wrong physical contact", {"condition": "J3.8"}),
+            ("wrong definition", {"subject_definition_id": SENSOR}),
+            ("wrong profile", {"scope": "Different assembly"}),
+            ("missing document", {"source_document_id": None}),
+            ("conflicting approval", {"review_status": "conflicting"}),
+            ("unapproved", {"review_status": "unverified"}),
+            ("missing claim", None),
+        )
+        for name, change in cases:
+            with self.subTest(name=name):
+                definitions, sources, claims = fixture_data()
+                claim = next(item for item in claims if item["claim_id"] == "board-J3.9")
+                if change is None:
+                    claims.remove(claim)
+                else:
+                    claim.update(change)
+                # A fresh digest isolates the semantic evidence check.
+                self.error("AMBIGUOUS_MAPPING", load_catalog, seal(definitions, sources, claims))
+
+    def test_source_edition_changes_catalog_pin_without_changing_connectivity(self):
+        definitions, sources, claims = fixture_data()
+        next(source for source in sources if source["source_document_id"] == "S18")["edition"] = "R1 test edition"
+        payload = seal(definitions, sources, claims)
+        self.error("CATALOG_DIGEST_MISMATCH", load_catalog, payload, expected_sha256=self.catalog.catalog_digest)
+        updated = load_catalog(payload)
+        self.assertNotEqual(self.catalog.catalog_digest, updated.catalog_digest)
+
+        def board_snapshot(catalog):
+            return create_snapshot(catalog, instances=(part(catalog, "board", BOARD),),
+                                   junctions=(), conductors=())
+
+        original, revised = board_snapshot(self.catalog), board_snapshot(updated)
+        self.assertEqual(original.instances[0].definition_digest, revised.instances[0].definition_digest)
+        mapping = resolve_terminal(updated, revised, t("board", "J3.9")).terminal.signal_ref
+        self.assertEqual((mapping.mapping_status, mapping.target_kind, mapping.target_id),
+                         ("verified", "soc_gpio", "GPIO18"))
+        encoded = serialize_snapshot(revised)
+        self.assertEqual(serialize_snapshot(restore_snapshot(encoded, updated)), encoded)
+        self.error("CATALOG_MISMATCH", restore_snapshot, encoded, self.catalog)
+        self.assertEqual(compute_nets(self.catalog, original).nets, compute_nets(updated, revised).nets)
