@@ -31,3 +31,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 - Preserved the owner-frozen prototype plan and implemented the scoped HCSR04 bridge from canonical nets to real GPIO checks.
 - Authentic GPIO source admission passed. Full discovery passed 54 tests, including the authentic DATA-001 tests. The wrong Trig contact failed and the corrected contact passed physical capability. Electrical compatibility stayed delegated.
 - See the [execution report](../reports/DEMO-001-REPORT.md). No interactive acceptance, hardware testing or later milestone authorization was established.
+
+## 2026-11-20 — SYN-001
+
+- Generated reviewed two-role physical assignments through real CORE topology and GPIO verification. Observed two hard rejections and one incomplete alternative in the reviewed fixture.
+- S01–S18 and all 72 discovered regression tests passed. Separate authentic GPIO source admission passed. See the [execution report](../reports/SYN-001-REPORT.md) for counts, uncertainty and reproducible traces. Owner review is pending.

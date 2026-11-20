@@ -3,7 +3,7 @@
 ## Plan metadata
 
 - Plan ID: `INVENTOR-EDU-PROTOTYPE`
-- Plan version: `1.0`
+- Plan version: `1.1`
 - State: `OWNER-FROZEN`
 - Primary concept: `BOUNDED_GOAL_TO_CIRCUIT`
 - First lesson: `HCSR04_GPIO_WIRING`
@@ -15,7 +15,8 @@
 | ID | Deliverable | Required gate | State at plan creation |
 |---|---|---|---|
 | DEMO-001 | Headless scenario-to-verification bridge | Real net-derived GPIO requests and correct scoped findings | AUTHORIZED |
-| DEMO-002 | Owner-approved frontend technology and UX contract | UI architecture, OSS rights and event semantics approved outside Codex | PLANNED / NOT_AUTHORIZED |
+| SYN-001 | First headless synthesis experiment | Bounded physical terminal assignments, canonical nets, scoped GPIO checks and reproducible traces | AUTHORIZED |
+| DEMO-002 | Owner-approved frontend technology and UX contract | UI architecture, OSS rights and event semantics approved outside Codex | DEFERRED / NOT_AUTHORIZED |
 | DEMO-003 | Minimal interactive 2D wiring editor | Physical terminal events, wire changes, topology invariance, undo/redo | PLANNED / NOT_AUTHORIZED |
 | DEMO-004 | Frontend-to-verifier integration and Georgian feedback | No UI-hardcoded findings, stale finding removal, evidence anchors | PLANNED / NOT_AUTHORIZED |
 | DEMO-005 | Bounded Georgian goal interpretation and project setup | Deterministic requirements, explicit ambiguity and reproducibility | PLANNED / NOT_AUTHORIZED |
@@ -23,6 +24,8 @@
 | DEMO-006 | Complete demo acceptance and pilot evidence | Existing DEMO.md conditions, independent testing and actual users | PLANNED / NOT_AUTHORIZED |
 
 Milestone IDs are planning references, not execution permissions.
+
+The subsequent planned integrations are requirements parsing, component matching, educational hints, electrical verification and firmware validation, followed by interactive UI. Each requires separate owner authorization.
 
 CORE-001C may be scheduled independently if its approved evidence and prerequisites become available.
 
