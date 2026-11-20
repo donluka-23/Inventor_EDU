@@ -115,3 +115,7 @@ With fixture loading excluded, `timeit.repeat(lambda: evaluate_ideal_divider(cas
 | `docs/prototype/MASTER_PLAN.md` | Advanced 1.4 to 1.5 and added the model-only substep |
 
 Preserved the full CORE-001C gate and all deferred UI, review and downstream restrictions. No locks, engines, old tests, policy, source or language records changed. No dependency, vendor asset or new electrical data was added. CHAT visual/browser automation and Georgian language review retain their previous status. Full electrical acceptance, loading, correlated joint envelopes, pin stress, source drive, power-off, transient analysis and real hardware validation remain outside this E1 task. No implementation contradiction requires an owner decision. Owner acceptance of this bounded result is pending.
+
+## F. Git publication
+
+Pushed implementation commit `e1d23b75307bf627d16a8c71d6f10ba66d118f8a` with `git push -u origin codex/core-001c-e1-voltage-math`. The live `git ls-remote` and fetched task branch matched that exact SHA. The fetched history contained the CHAT predecessor and research archival commit. The four research blobs matched the archived originals. Remote `main` remained at `b1db3e947d04508ca22d4ba55e3172616620bad2`. Verified the ten-path allowlist, frozen task bytes, staged whitespace and credential patterns, documentation links and the protected master-plan content. This report-only follow-up records the publication.
