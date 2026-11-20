@@ -16,3 +16,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 - Applied the owner-selected Option A1. Catalog v1.1 binds verified mappings to typed contact, kind and target evidence. Legacy catalogs retain persisted bytes and resolve mapping authority as unknown.
 - Verified migration fixtures, old and new digests, and stable connectivity with the pinned suite. See the [R2 execution report](../reports/CORE-001A-R2-REPORT.md) for commands, counts and publication evidence.
 - Owner review remains pending. B and C need separate authorization. External catalog trust, serializer validation and finding vocabulary remain distinct concerns.
+
+## 2026-11-20 — DATA-001
+- Pinned and parsed authentic CC0 LibrePCB generic resistor records. Generated a v1.1 catalog and verified separate pads, explicit wiring and deterministic replay.
+- Ran 29 tests with authentic source files present. Documented exact YAGEO source facts separately and held manufacturer-specific admission pending an exact footprint/contact match and independent review.
+- See the [execution report](../reports/DATA-001-REPORT.md) and [source ledger](../reports/DATA-001_SOURCE_AND_EVIDENCE_LEDGER.md). Outcome PARTIAL. Follow-up work requires separate authorization.

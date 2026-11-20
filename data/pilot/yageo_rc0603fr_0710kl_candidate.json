@@ -1,0 +1,29 @@
+{
+  "manufacturer": "YAGEO",
+  "mpn": "RC0603FR-0710KL",
+  "series": "RC",
+  "package_codes": {"eia": "0603", "metric": "1608"},
+  "review_state": "SOURCE_CHECKED_CANDIDATE",
+  "independent_engineering_approval": null,
+  "catalog_admission": "HOLD",
+  "librepcb_device_match": null,
+  "primary_source": {
+    "url": "https://www.yageogroup.com/component-documentation/download/specsheet/RC0603FR-0710KL",
+    "edition": "Generated 2026-11-20",
+    "sha256": "1c105e7b4dd7b447e996030d423850cb19acf219f05bb8ffbe38a6934d0eddbc",
+    "rights": "link and independently transcribed facts only",
+    "location": "Page 1, exact MPN heading, General Information, Dimensions and Specifications"
+  },
+  "series_context": {
+    "url": "https://yageogroup.com/content/datasheet/asset/file/PYU-RC_GROUP_51_ROHS_L",
+    "edition": "2025-11-14 V.14",
+    "sha256": "7b6f0ae72708ca4b38126f84b5407a3e970a94cb60bc1a0afdaeb25a23d839bb",
+    "location": "Pages 2 and 4–5 for order code, construction and RC0603 standard power row; page 7 Functional Description and Fig. 10-1"
+  },
+  "nominal_resistance": {"value": "10000", "unit": "ohm", "locator": "Specifications / Resistance"},
+  "resistance_tolerance": {"plus_minus": "1", "unit": "percent", "locator": "Specifications / Resistance Tolerance"},
+  "rated_power": {"value": "0.1", "unit": "W", "ambient_temperature": "70", "temperature_unit": "degC", "locator": "Specifications / Power; series Functional Description"},
+  "dc_working_voltage_ceiling": {"value": "75", "unit": "V", "condition": "Part sheet supplies the ceiling at full rated power. Series document additionally limits continuous working voltage by resistance and applicable power. This is not an unconditional permitted voltage.", "locator": "Specifications / Voltage DC; series Rated Voltage"},
+  "derating": {"state": "SOURCE_CHECKED_CANDIDATE", "condition": "Series Fig. 10-1 shows full rating through 70 °C, decreasing to zero at 155 °C. No assembly-specific thermal model is admitted."},
+  "admitted_electrical_limits": null
+}
