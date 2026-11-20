@@ -137,3 +137,9 @@ The blocked gate left the existing prototype, source assets, lockfile, engineeri
 ## H. Owner decision
 
 Provide or approve a clean, near-top-down photo of a documented `ESP32-DevKitC-32E` with its visible `ESP32-WROOM-32E` shield, readable silkscreen and all 38 unobstructed contacts. Record file-specific modification and redistribution rights or arrange an owner-controlled photograph with an approved license. If a ShareAlike asset is selected, complete the separate review required by the OSS policy before artwork integration. Re-run exact-asset geometry, screenshots and owner visual review after source admission.
+
+## I. Git publication
+
+The staged review verified five authorized Markdown paths, the exact handoff SHA-256 `ccf3ad0edbe046ce72d381c922a07a43804c25bf7790a3b3d873ac2d8fccc5e6`, all 38 published pin labels, local report links, and no credential signatures. The initial whitespace check flagged four intentional Markdown hard breaks in the frozen handoff. The exact attachment bytes were verified separately and the check passed for every other staged path.
+
+`git push --set-upstream origin codex/ds-002b-r3-exact-hardware-visual` created the task branch. A separate `git ls-remote --heads` and fetch verified the checkpoint at `9cbfebe54f8e83a5d10ffe6f334b117c118c8e29`, its R2 predecessor ref at `72df4ea34169ab10a59810b22c50e1fbbc81188f`, and `main` at `b1db3e947d04508ca22d4ba55e3172616620bad2`. The fetched branch passed `git merge-base --is-ancestor` for R2. This documentation follow-up records the verified checkpoint.
