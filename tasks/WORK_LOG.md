@@ -47,3 +47,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 
 - Replayed the real CAP/SYN/CORE correction cycle, withdrew the prior GPIO34 hint, and preserved the remaining board, firmware, electrical and separate boot uncertainties.
 - Engineering and replay gates passed. Overall outcome PARTIAL pending independent human review and owner approval of the Georgian preview wording. See the [execution report](../reports/EDU-001-REPORT.md).
+
+## 2026-11-20 — CHAT-001
+
+- Added the bounded local action controller and Georgian loopback forms. Exercised actual source inspection, recomputation, hint withdrawal and reset through HTTP form submissions.
+- Preserved the EDU wording gate. The review packet has blank human-review fields. See the [execution report](../reports/CHAT-001-REPORT.md). Owner review is pending.
