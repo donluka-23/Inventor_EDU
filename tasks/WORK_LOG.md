@@ -26,3 +26,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 - Added bounded deterministic GPIO checks over CORE-001A-R2 topology and typed evidence. Published separate fact and catalog pins for the documented test-only -32E profile.
 - Authentic GPIO sources passed explicit admission. The missing-source control failed as required. Full discovery passed 44 methods, including the authentic DATA-001 cases.
 - See the [execution report](../reports/CORE-001B-01-REPORT.md) and [source and rule ledger](../reports/CORE-001B-01_SOURCE_AND_RULE_LEDGER.md). Outcome PASS in the test scope. Deployment trust and physical hardware validation remain separate.
+
+## 2026-11-20 — DEMO-001
+- Preserved the owner-frozen prototype plan and implemented the scoped HCSR04 bridge from canonical nets to real GPIO checks.
+- Authentic GPIO source admission passed. Full discovery passed 54 tests, including the authentic DATA-001 tests. The wrong Trig contact failed and the corrected contact passed physical capability. Electrical compatibility stayed delegated.
+- See the [execution report](../reports/DEMO-001-REPORT.md). No interactive acceptance, hardware testing or later milestone authorization was established.
