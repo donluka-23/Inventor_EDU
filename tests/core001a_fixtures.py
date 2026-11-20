@@ -22,7 +22,7 @@ def checksum(value):
     return "sha256:" + hashlib.sha256(encode(value)).hexdigest()
 
 
-def seal(definitions, sources=(), claims=()):
+def seal(definitions, sources=(), claims=(), *, version="1.0"):
     """Pin typed fixture data independently of the production encoder."""
     definitions = [json.loads(DeviceDefinition.model_validate_json(encode({
         **item, "definition_digest": ZERO,
@@ -31,7 +31,7 @@ def seal(definitions, sources=(), claims=()):
         del item["definition_digest"]
         item["terminals"].sort(key=lambda terminal: terminal["terminal_id"])
         item["definition_digest"] = checksum(item)
-    root = dict(catalog_schema_version="1.0", definitions=sorted(definitions, key=lambda x: x["definition_id"]),
+    root = dict(catalog_schema_version=version, definitions=sorted(definitions, key=lambda x: x["definition_id"]),
                 source_documents=sorted(sources, key=lambda x: x["source_document_id"]),
                 claims=sorted(claims, key=lambda x: x["claim_id"]), catalog_digest=ZERO)
     root = json.loads(CatalogSnapshot.model_validate_json(encode(root)).model_dump_json())
@@ -128,6 +128,36 @@ def fixture_data():
     passive = synthetic(PASSIVE, "passive", ("A", "B"), "lead")
     module = synthetic(MODULE, "integrated_circuit", ("P1", "P2", "P3"), "pad")
     return [board, sensor, passive, module], sources, claims
+
+
+def reviewed_mapping_fixture_data():
+    """Keep v1 definitions intact and author v1.1 evidence from reviewed primary source rows."""
+    definitions, sources, claims = fixture_data()
+    by_id = {item["definition_id"]: item for item in definitions}
+    records = [item for item in claims if item["claim_type"] != "signal_mapping"]
+    # S18 header table and ordering row for ESP32-DevKitC-32E / ESP32-WROOM-32E.
+    for connector, position, target_kind, target_id in (
+        ("J2", 1, "power_domain", "3V3"), ("J2", 5, "soc_gpio", "GPIO34"),
+        ("J2", 14, "power_domain", "GND"), ("J2", 19, "power_domain", "5V"),
+        ("J3", 1, "power_domain", "GND"), ("J3", 7, "power_domain", "GND"),
+        ("J3", 8, "soc_gpio", "GPIO19"), ("J3", 9, "soc_gpio", "GPIO18"),
+    ):
+        terminal_id = f"{connector}.{position}"
+        records.append(claim(
+            f"board-{terminal_id}", "signal_mapping", by_id[BOARD],
+            dict(terminal_id=terminal_id, target_kind=target_kind, target_id=target_id),
+            "S18", f"Header Block, {connector} row {position}", source_class="manufacturer",
+            qualification="R2 source review: documented V4 / -32E header contact only.",
+        ))
+    # S23 names these exposed interface signals for the S22 retail product, without OEM attribution.
+    for terminal_id in ("Vcc", "Trig", "Echo", "Gnd"):
+        records.append(claim(
+            f"sensor-{terminal_id}", "signal_mapping", by_id[SENSOR],
+            dict(terminal_id=terminal_id, target_kind="signal", target_id=terminal_id),
+            "S23", f"HC-SR04 Pinouts, {terminal_id}", source_class="retailer",
+            qualification="R2 source review: PID3942 retail interface only.",
+        ))
+    return definitions, sources, records
 
 
 def synthetic(key, category, contacts, contact_type):

@@ -7,7 +7,7 @@ from .core import (
 from .models import (
     CatalogSnapshot, CircuitSnapshot, ComponentInstance, Conductor, DeviceDefinition,
     DeviceIdentity, EngineeringModelError, EvidenceClaim, InternalIdealTie, Junction,
-    JunctionRef, ResolvedTerminal, SignalMapping, SourceDocument, TerminalDefinition,
+    JunctionRef, ResolvedTerminal, SignalMapping, SignalMappingEvidence, SourceDocument, TerminalDefinition,
     TerminalRef, TopologyResult,
 )
 
@@ -17,5 +17,5 @@ __all__ = [
     "CatalogSnapshot", "CircuitSnapshot", "ComponentInstance", "Conductor",
     "DeviceDefinition", "DeviceIdentity", "EngineeringModelError", "EvidenceClaim",
     "InternalIdealTie", "Junction", "JunctionRef", "ResolvedTerminal", "SignalMapping",
-    "SourceDocument", "TerminalDefinition", "TerminalRef", "TopologyResult",
+    "SignalMappingEvidence", "SourceDocument", "TerminalDefinition", "TerminalRef", "TopologyResult",
 ]

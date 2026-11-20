@@ -10,7 +10,7 @@ from pydantic import ValidationError
 from .models import (
     CatalogSnapshot, CircuitSnapshot, ComponentInstance, Conductor, DeviceDefinition,
     EditingDiagnostic, EngineeringModelError, Junction, Net, Record, ResolvedTerminal,
-    TerminalRef, TopologyResult, VertexRef,
+    SignalMappingEvidence, TerminalRef, TopologyResult, VertexRef,
 )
 
 MAX_JSON_BYTES = 4 * 1024 * 1024
@@ -125,22 +125,51 @@ def _catalog_payload(catalog: CatalogSnapshot) -> dict:
     }
 
 
+def _typed_mapping_matches(mapping, claim, terminal_id, identity, source) -> bool:
+    value = claim.value
+    if not isinstance(value, SignalMappingEvidence) or (
+        value.terminal_id, value.target_kind, value.target_id
+    ) != (terminal_id, mapping.target_kind, mapping.target_id):
+        return False
+    if identity.synthetic_test_data:
+        return False
+    if claim.source_class == "manufacturer":
+        return identity.manufacturer_status == "verified" and source.publisher == identity.manufacturer_name
+    # Retail evidence establishes an external signal for a retail profile, not a SoC or rail mapping.
+    return (claim.source_class == "retailer" and value.target_kind == "signal"
+            and source.publisher == identity.brand_or_distributor)
+
+
 def _admit_catalog(catalog: CatalogSnapshot):
     definitions = _index(catalog.definitions, "definition_id", "definitions")
     sources = _index(catalog.source_documents, "source_document_id", "source_documents")
     claims = _index(catalog.claims, "claim_id", "claims")
     conflicted = set()
     disputed_ties = set()
+    disputed_mappings = set()
+    approved_mapping_targets = {}
+    legacy = catalog.catalog_schema_version == "1.0"
     for claim in claims.values():
+        typed = isinstance(claim.value, SignalMappingEvidence)
         if (claim.subject_definition_id not in definitions
                 or (claim.source_document_id is not None and claim.source_document_id not in sources)
-                or not set(claim.conflict_claim_ids) <= claims.keys()):
+                or not set(claim.conflict_claim_ids) <= claims.keys()
+                or (typed and (legacy or claim.claim_type != "signal_mapping"))):
             raise EngineeringModelError("INVALID_CATALOG", ("claims",), (claim.claim_id,))
         conflicted.update(claim.conflict_claim_ids)
         if claim.review_status == "conflicting" or claim.conflict_claim_ids:
             conflicted.add(claim.claim_id)
             if claim.claim_type == "internal_ideal_tie" and isinstance(claim.value, tuple):
                 disputed_ties.add((claim.subject_definition_id, claim.scope, frozenset(claim.value)))
+        if typed and claim.review_status == "approved":
+            key = (claim.subject_definition_id, claim.scope, claim.value.terminal_id)
+            target = (claim.value.target_kind, claim.value.target_id)
+            if approved_mapping_targets.setdefault(key, target) != target:
+                disputed_mappings.add(key)
+    for claim_id in conflicted:
+        claim = claims[claim_id]
+        if isinstance(claim.value, SignalMappingEvidence):
+            disputed_mappings.add((claim.subject_definition_id, claim.scope, claim.value.terminal_id))
 
     terminals_by_definition = {}
     for definition_id, definition in definitions.items():
@@ -173,16 +202,25 @@ def _admit_catalog(catalog: CatalogSnapshot):
             mapping = terminal.signal_ref
             if mapping is not None:
                 claim = scoped_claim(mapping.source_claim_id)
+                mapping_path = (*path, "terminals", terminal.terminal_id)
                 if (mapping.terminal_id != terminal.terminal_id
-                        or (mapping.source_claim_id is not None and claim is None)
-                        or (mapping.mapping_status == "verified" and (
-                            mapping.target_kind == "unknown" or mapping.target_id is None or claim is None
-                            or claim.review_status != "approved" or claim.claim_id in conflicted
-                            or claim.claim_type != "signal_mapping" or claim.value != mapping.target_id
-                            or claim.condition != terminal.terminal_id
-                            or not claim.source_document_id or not claim.locator
-                        ))):
-                    raise EngineeringModelError("AMBIGUOUS_MAPPING", (*path, "terminals", terminal.terminal_id))
+                        or (mapping.source_claim_id is not None and claim is None)):
+                    raise EngineeringModelError("AMBIGUOUS_MAPPING", mapping_path)
+                if mapping.mapping_status != "verified":
+                    continue
+                if (mapping.target_kind == "unknown" or mapping.target_id is None or claim is None
+                        or claim.review_status != "approved" or claim.claim_id in conflicted
+                        or claim.claim_type != "signal_mapping" or not claim.source_document_id or not claim.locator):
+                    raise EngineeringModelError("AMBIGUOUS_MAPPING", mapping_path)
+                if legacy:
+                    matches = claim.value == mapping.target_id and claim.condition == terminal.terminal_id
+                else:
+                    scope_key = (definition_id, claim.scope, terminal.terminal_id)
+                    matches = scope_key not in disputed_mappings and _typed_mapping_matches(
+                        mapping, claim, terminal.terminal_id, definition.identity, sources[claim.source_document_id]
+                    )
+                if not matches:
+                    raise EngineeringModelError("AMBIGUOUS_MAPPING", mapping_path)
         for tie in definition.internal_ideal_ties:
             members = set(tie.terminal_ids)
             claim = scoped_claim(tie.evidence_claim_id)
@@ -206,6 +244,7 @@ def _admit_catalog(catalog: CatalogSnapshot):
 
 
 def load_catalog(payload: bytes, *, expected_sha256: str | None = None) -> CatalogSnapshot:
+    """Validate internal consistency and optionally compare an externally supplied catalog pin."""
     catalog = _decode(CatalogSnapshot, payload, "INVALID_CATALOG")
     _admit_catalog(catalog)
     if expected_sha256 is not None and expected_sha256 != catalog.catalog_digest:
@@ -294,13 +333,19 @@ def create_snapshot(catalog: CatalogSnapshot, *, instances: tuple[ComponentInsta
 
 
 def resolve_terminal(catalog: CatalogSnapshot, snapshot: CircuitSnapshot, ref: TerminalRef) -> ResolvedTerminal:
+    """Resolve a contact. Legacy mapping declarations are returned as unverified hints."""
     snapshot = _validate(CircuitSnapshot, snapshot, "INVALID_SNAPSHOT")
     definitions, instances, terminals = _bind(catalog, snapshot)
     ref = _validate(TerminalRef, ref, "INVALID_ENDPOINT")
     instance, terminal = _resolve(instances, terminals, ref)
     evidence = set(definitions[instance.definition_id].evidence_claim_ids) | set(terminal.capability_claim_ids)
-    if terminal.signal_ref and terminal.signal_ref.source_claim_id:
-        evidence.add(terminal.signal_ref.source_claim_id)
+    mapping = terminal.signal_ref
+    if mapping is not None:
+        if mapping.source_claim_id is not None:
+            evidence.add(mapping.source_claim_id)
+        if catalog.catalog_schema_version == "1.0" and mapping.mapping_status == "verified":
+            # Preserve the catalog's historical declaration and digest; downgrade only the resolved view.
+            terminal = terminal.model_copy(update={"signal_ref": mapping.model_copy(update={"mapping_status": "unknown"})})
     return ResolvedTerminal(ref=ref, definition_id=instance.definition_id, terminal=terminal,
                             evidence_claim_ids=tuple(sorted(evidence)))
 

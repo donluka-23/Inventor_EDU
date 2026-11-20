@@ -8,7 +8,9 @@ Identifier = Annotated[str, StringConstraints(pattern=r"^[A-Za-z0-9][A-Za-z0-9_.
 Digest = Annotated[str, StringConstraints(pattern=r"^sha256:[a-f0-9]{64}$")]
 Nonempty = Annotated[str, StringConstraints(min_length=1, pattern=r"\S")]
 Version = Literal["1.0"]
+CatalogVersion = Literal["1.0", "1.1"]
 KnownStatus = Literal["verified", "unverified", "not_applicable"]
+MappingTargetKind = Literal["soc_gpio", "power_domain", "signal"]
 
 
 class EngineeringModelError(ValueError):
@@ -51,11 +53,17 @@ class SourceDocument(Record):
     rights_state: Literal["verified_reusable", "link_only", "permission_required", "unverified"]
 
 
+class SignalMappingEvidence(Record):
+    terminal_id: Identifier
+    target_kind: MappingTargetKind
+    target_id: Identifier
+
+
 class EvidenceClaim(Record):
     claim_id: Identifier
     claim_type: Identifier
     subject_definition_id: Identifier
-    value: Nonempty | tuple[Identifier, ...] | None
+    value: Nonempty | tuple[Identifier, ...] | SignalMappingEvidence | None
     unit: Nonempty | None = None
     source_class: Literal["manufacturer", "retailer", "user_assumption", "derived", "measurement", "synthetic"]
     source_document_id: Identifier | None = None
@@ -69,7 +77,7 @@ class EvidenceClaim(Record):
 
 class SignalMapping(Record):
     terminal_id: Identifier
-    target_kind: Literal["soc_gpio", "power_domain", "signal", "unknown"]
+    target_kind: MappingTargetKind | Literal["unknown"]
     target_id: Identifier | None = None
     source_claim_id: Identifier | None = None
     mapping_status: Literal["verified", "unknown"]
@@ -103,7 +111,7 @@ class DeviceDefinition(Record):
 
 
 class CatalogSnapshot(Record):
-    catalog_schema_version: Version
+    catalog_schema_version: CatalogVersion
     definitions: tuple[DeviceDefinition, ...]
     source_documents: tuple[SourceDocument, ...]
     claims: tuple[EvidenceClaim, ...]

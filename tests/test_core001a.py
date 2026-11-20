@@ -264,7 +264,7 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(original.instances[0].definition_digest, revised.instances[0].definition_digest)
         mapping = resolve_terminal(updated, revised, t("board", "J3.9")).terminal.signal_ref
         self.assertEqual((mapping.mapping_status, mapping.target_kind, mapping.target_id),
-                         ("verified", "soc_gpio", "GPIO18"))
+                         ("unknown", "soc_gpio", "GPIO18"))
         encoded = serialize_snapshot(revised)
         self.assertEqual(serialize_snapshot(restore_snapshot(encoded, updated)), encoded)
         self.error("CATALOG_MISMATCH", restore_snapshot, encoded, self.catalog)
