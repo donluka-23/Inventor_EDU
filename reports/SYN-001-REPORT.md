@@ -121,3 +121,7 @@ The reviewed -32E profile is test-only. Synthetic MCU facts have their own ficti
 Research H/I parsing, general component matching, the H→I→J crosswalk, Georgian explanation generation, the broader J01–J16 benchmark, electrical analysis, firmware validation and interactive UI remain outside the delivered experiment. No architecture-level blocker was encountered. No dependencies, third-party artifacts or licenses were added. To discard the experiment locally, switch back to the verified predecessor branch and retain the task branch for review.
 
 Owner acceptance is pending. Further milestones require a separately authorized task.
+
+## G. Git publication
+
+Implementation commit `36b3548855cbf90d80e8a6f2bc3e68deee27650e` was pushed with `git push -u origin codex/syn-001-candidate-generation`. A live `git ls-remote --heads origin refs/heads/codex/syn-001-candidate-generation refs/heads/main` verified the exact commit on the task branch. The local branch tracks its same-named origin branch. Remote `main` remained at `b1db3e947d04508ca22d4ba55e3172616620bad2`. The staged allowlist, whitespace and credential-pattern checks passed. The frozen task bytes matched the owner attachment locally and the staged blob matched after Git's line ending normalization. The four pre-existing untracked research files were preserved. This publication section is a report-only follow-up to the verified implementation commit.
