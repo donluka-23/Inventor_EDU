@@ -62,3 +62,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 
 - Admitted an in-memory composite catalog with exact reviewed source-context definitions and two synthetic resistor bodies. Verified the canonical motif, two independent wiring rejections and exact recovery after restoring a conductor.
 - E1 math remains conditional, and actual component values and hardware compatibility remain unestablished. See the [execution report](../reports/CORE-001C-E2-REPORT.md). Owner review is pending.
+
+## 2026-11-21 — EDU-T1
+
+- Added the single independent GPIO input and electrical-scope item to the test-only loopback preview. Verified fresh CORE/B scoring, withholding of pre-answer evidence, and rejection of repeated and stale submissions.
+- Georgian language review remains pending. See the [execution report](../reports/EDU-T1-REPORT.md). Owner review is pending.

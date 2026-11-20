@@ -7,7 +7,7 @@ from hmac import compare_digest
 from html import escape
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import re
-from secrets import token_urlsafe
+from secrets import token_bytes, token_urlsafe
 from urllib.parse import parse_qsl, urlsplit
 
 from examples.edu001_learning_cycle import ANCHOR, CATALOG_PIN, FACTSET_PIN, load_fixture
@@ -18,6 +18,9 @@ from inventor_edu.learning_session import (
 )
 from inventor_edu.models import TerminalRef
 from inventor_edu.synthesis import SignalRole, SynthesisRequest
+from inventor_edu.transfer_assessment import (
+    TransferAttempt, TransferValidationError, can_start_transfer, start_transfer, submit_transfer, transfer_choices,
+)
 from pydantic import ValidationError
 
 HOST = "127.0.0.1"
@@ -60,6 +63,7 @@ button,input{font:inherit;border-radius:.4rem;padding:.45rem .7rem;border:1px so
 button{background:#e1f0ee;color:#183e3b;cursor:pointer;font-weight:600}button:hover{background:#cde8e4}
 button:focus-visible,input:focus-visible,a:focus-visible,summary:focus-visible{outline:3px solid #985500;outline-offset:2px}
 input{width:100%;margin:.35rem 0}code{overflow-wrap:anywhere;font-size:.91em}
+.transfer input[type=radio]{width:auto;margin-right:.4rem}.transfer fieldset{margin:0 0 1rem}
 li{margin:.45rem 0}ul{padding-left:1.25rem}a{color:#16574f;overflow-wrap:anywhere}
 .status{display:inline-block;padding:.15rem .45rem;border-radius:.25rem;background:#e4efed;font-weight:700}
 .fail,.error{background:#ffe2d9;color:#702d1e}.muted{color:#405d5b}.withdrawn{border-left:4px solid #9c7057;padding-left:.7rem}
@@ -193,7 +197,7 @@ def _other_role(state) -> str:
             f'{_e(_contact(trace.assigned_terminal))}</code></p><ul>{checks}</ul>')
 
 
-def render_page(result: LearningActionResult, csrf: str) -> str:
+def render_page(result: LearningActionResult, csrf: str, *, transfer_available: bool = False) -> str:
     state = result.state
     opening = ('<!doctype html><html lang="ka"><head><meta charset="utf-8">'
                '<meta name="viewport" content="width=device-width, initial-scale=1">'
@@ -208,6 +212,8 @@ def render_page(result: LearningActionResult, csrf: str) -> str:
     report = state.feedback
     common = _hidden("csrf", csrf) + _hidden("revision", state.revision)
     actions = "".join(_button(common, key) for key in LABELS if key != "TRY_TERMINAL")
+    if transfer_available:
+        actions += _button(common, "START_TRANSFER", label="დამოუკიდებელი შემოწმება")
     aliases = " · ".join(ALIASES)
     prompt = (f'<details><summary>ზუსტი ტექსტური ბრძანებები</summary><p class="muted">{_e(aliases)}</p>'
               f'<form action="/" method="post">{common}<label for="command">ბრძანება</label>'
@@ -234,11 +240,71 @@ def render_page(result: LearningActionResult, csrf: str) -> str:
             + _options(state, common) + '</section></aside></div>' + ending)
 
 
+def render_transfer(attempt: TransferAttempt, csrf: str, key: bytes, error: str = "") -> str:
+    common = _hidden("csrf", csrf) + _hidden("revision", attempt.training_revision)
+    frame = ('<!doctype html><html lang="ka"><head><meta charset="utf-8">'
+             '<meta name="viewport" content="width=device-width, initial-scale=1">'
+             f'<title>INVENTOR EDU · დამოუკიდებელი შემოწმება</title><style>{CSS}</style></head><body><main>'
+             f'<header><h1>დამოუკიდებელი შემოწმება</h1><div class="notice">{_e(NOTICE)}</div></header>'
+             '<article class="transfer">')
+    alert = f'<p role="alert">{_e(error)}</p>' if error else ""
+    if attempt.result is None:
+        choices = "".join(
+            f'<label><input type="radio" name="terminal" value="{_e(token)}" required> {_e(_contact(ref))}</label><br>'
+            for ref, token in transfer_choices(attempt, key)
+        )
+        body = (
+            '<form action="/" method="post">' + common + _hidden("action", "SUBMIT_TRANSFER")
+            + '<fieldset><legend>ახლა დაფამ სენსორის Echo სიგნალი უნდა წაიკითხოს (GPIO_IN). მოცემული ორი კონტაქტიდან '
+              'რომელს არ აქვს ცნობილი აკრძალვა ამ როლისთვის მიმდინარე შემოწმებებში?</legend>'
+            + choices + '</fieldset><fieldset><legend>თუ GPIO_IN ფუნქციის შემოწმება გავლილია, '
+              'ამტკიცებს ეს Echo-ს ელექტრულ თავსებადობას?</legend>'
+              '<label><input type="radio" name="scope" value="NO" required> არა</label><br>'
+              '<label><input type="radio" name="scope" value="YES" required> დიახ</label></fieldset>'
+              '<button type="submit">პასუხების შემოწმება</button></form>'
+        )
+    else:
+        result = attempt.result
+        report = result.candidate.gpio_report
+        echo_id = result.echo_requirement_id
+        trace = next(row for row in result.candidate.traces if row.requirement_id == echo_id)
+        rows = "".join(
+            f'<li><code>{_e(row.rule_id)}={_e(row.status)}/{_e(row.reason_code)} · {_e(row.finding_id)}</code></li>'
+            for row in report.findings if row.requirement_id == echo_id
+        )
+        rows += "".join(
+            f'<li><code>COVERAGE · {_e(row.rule_id)}={_e(row.coverage)}/{_e(row.reason_code)} · '
+            f'{_e(row.finding_id)}</code></li>' for row in report.coverage if row.requirement_id == echo_id
+        )
+        sources = "".join(
+            f'<li>{_e(item.claim_id)} · {_e(item.revision)} · {_e(item.locator)} · {_safe_source_link(item.url)}</li>'
+            for item in result.evidence
+        )
+        choice_text = ("ამ როლისთვის მიმართულების შემოწმება გავლილია და ცნობილი აკრძალვა არ გამოვლინდა."
+                       if result.choice_supported_in_scope else "ამ როლისთვის მიმდინარე შემოწმებებში აკრძალვა გამოვლინდა.")
+        scope_text = ("პასუხი „არა“ სწორია." if result.scope_answer_correct else "პასუხი „დიახ“ არასწორია.")
+        body = (
+            f'<h2>სასწავლო შედეგი</h2><p><code>{_e(result.outcome)}</code></p>'
+            f'<p>არჩეული კონტაქტი · <code>{_e(_contact(result.selected))}</code></p>'
+            f'<p>{_e(choice_text)} {_e(scope_text)} GPIO_IN მიმართულების შემოწმება ელექტრულ თავსებადობას არ ამტკიცებს.</p>'
+            f'<h2>ინჟინერული ჩანაწერი</h2><p>ელექტრული თავსებადობა · <code>{_e(result.electrical_acceptance)}</code></p>'
+            f'<p>წყაროს სტატუსი · <code>{_e(result.source_review)}</code></p>'
+            f'<p><code>{_e(_contact(trace.source_terminal))} → {_e(_contact(trace.assigned_terminal))}'
+            f'<br>Net · {_e(trace.net_id)}</code></p>'
+            f'<p><code>Snapshot · {_e(report.snapshot_digest)}<br>Catalog · {_e(report.catalog_digest)}'
+            f'<br>Fact set · {_e(report.factset_digest)}<br>Assessment · {_e(result.result_digest)}</code></p>'
+            f'<ul>{rows}</ul><details><summary>წყაროები</summary><ul>{sources}</ul></details>'
+        )
+    return frame + alert + body + _button(common, "RESET_LESSON") + '</article></main></body></html>'
+
+
 class LessonServer(HTTPServer):
     def __init__(self, fixture: LessonFixture, port: int, *, preview: bool = False):
         self.fixture = fixture
         self.state = start_learning_session(fixture, preview=preview)
         self.csrf = token_urlsafe(32)
+        self.transfer_key = token_bytes(32)
+        self.transfer: TransferAttempt | None = None
         super().__init__((HOST, port), LessonHandler)
         self.authority = f"{HOST}:{self.server_port}"
         self.origin = f"http://{self.authority}"
@@ -307,7 +373,45 @@ class LessonHandler(BaseHTTPRequestHandler):
 
     def _page(self, result: LearningActionResult):
         status = 409 if result.error in {"STALE_CONTEXT", "STALE_SUBMISSION"} else 400 if result.error else 200
-        self._send(status, render_page(result, self.server.csrf), "text/html; charset=utf-8")
+        state, attempt = result.state, self.server.transfer
+        if (state is not None and attempt is not None and attempt.training_revision == state.revision
+                and attempt.training_snapshot_digest == state.candidate.topology.snapshot_sha256):
+            body = render_transfer(attempt, self.server.csrf, self.server.transfer_key, result.error or "")
+        else:
+            self.server.transfer = None
+            available = state is not None and can_start_transfer(self.server.fixture, state)
+            body = render_page(result, self.server.csrf, transfer_available=available)
+        self._send(status, body, "text/html; charset=utf-8")
+
+    def _transfer_action(self, form: dict[str, str], revision: int):
+        fixture, state = self.server.fixture, self.server.state
+        if revision != state.revision:
+            self._send(409, f"{NOTICE}\nSTALE_TRANSFER_CONTEXT")
+            return
+        common = {"csrf", "revision", "action"}
+        try:
+            if form["action"] == "START_TRANSFER" and form.keys() == common:
+                if self.server.transfer is not None:
+                    raise TransferValidationError("TRANSFER_ALREADY_STARTED")
+                self.server.transfer = start_transfer(fixture, state)
+            elif form["action"] == "SUBMIT_TRANSFER" and form.keys() == common | {"terminal", "scope"}:
+                if self.server.transfer is None:
+                    raise TransferValidationError("TRANSFER_NOT_STARTED")
+                self.server.transfer = submit_transfer(
+                    fixture, state, self.server.transfer, self.server.transfer_key, form["terminal"], form["scope"],
+                )
+            else:
+                self.send_error(400)
+                return
+        except TransferValidationError as exc:
+            code = str(exc)
+            status = 400 if code in {"INVALID_TRANSFER_RESPONSE", "INVALID_TRANSFER_CHOICE"} else 409
+            self._send(status, f"{NOTICE}\n{code}")
+            return
+        except ValueError:
+            self._send(409, f"{NOTICE}\nTRANSFER_UNAVAILABLE")
+            return
+        self._page(LearningActionResult(state=state, recognized_action=None))
 
     def do_GET(self):
         if self._authorized(post=False):
@@ -355,6 +459,9 @@ class LessonHandler(BaseHTTPRequestHandler):
         if re.fullmatch(r"[0-9]{1,10}", revision) is None:
             self.send_error(400)
             return
+        if form.get("action") in {"START_TRANSFER", "SUBMIT_TRANSFER"}:
+            self._transfer_action(form, int(revision))
+            return
         fixture, state = self.server.fixture, self.server.state
         try:
             if form.keys() == {"csrf", "revision", "text"} and len(form["text"]) <= 80:
@@ -373,6 +480,8 @@ class LessonHandler(BaseHTTPRequestHandler):
             self._send(409, f"{NOTICE}\nPREVIEW_CONTEXT_REJECTED")
             return
         if result.state is not None and result.error is None:
+            if result.state.revision != state.revision:
+                self.server.transfer = None
             self.server.state = result.state
         self._page(result)
 
