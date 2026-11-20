@@ -42,3 +42,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 - Archived all four owner-provided Research F–I files byte-for-byte in one dedicated commit.
 - Discovered physical GPIO contacts through the existing catalog and verifier. The discovered domains drove the existing SYN-001 generator, which evaluated 20 assignments.
 - All 89 regression tests and the separate authentic GPIO source gate passed. See the [execution report](../reports/CAP-001-REPORT.md). Owner review is pending.
+
+## 2026-11-20 — EDU-001
+
+- Replayed the real CAP/SYN/CORE correction cycle, withdrew the prior GPIO34 hint, and preserved the remaining board, firmware, electrical and separate boot uncertainties.
+- Engineering and replay gates passed. Overall outcome PARTIAL pending independent human review and owner approval of the Georgian preview wording. See the [execution report](../reports/EDU-001-REPORT.md).

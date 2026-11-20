@@ -3,7 +3,7 @@
 ## Plan metadata
 
 - Plan ID: `INVENTOR-EDU-PROTOTYPE`
-- Plan version: `1.2`
+- Plan version: `1.3`
 - State: `OWNER-FROZEN`
 - Primary concept: `BOUNDED_GOAL_TO_CIRCUIT`
 - First lesson: `HCSR04_GPIO_WIRING`
@@ -17,6 +17,7 @@
 | DEMO-001 | Headless scenario-to-verification bridge | Real net-derived GPIO requests and correct scoped findings | AUTHORIZED |
 | SYN-001 | First headless synthesis experiment | Bounded physical terminal assignments, canonical nets, scoped GPIO checks and reproducible traces | AUTHORIZED |
 | CAP-001 | Bounded GPIO terminal discovery experiment | Evidence-qualified physical terminal domains drive the existing headless synthesis experiment | AUTHORIZED |
+| EDU-001 | Headless Georgian engineering feedback and recalculation experiment | Current CORE/B and source evidence, obsolete hint withdrawal and a scoped Georgian correction cycle | AUTHORIZED / ENGINEERING VERIFIED / GEORGIAN WORDING REVIEW PENDING |
 | DEMO-002 | Owner-approved frontend technology and UX contract | UI architecture, OSS rights and event semantics approved outside Codex | DEFERRED / NOT_AUTHORIZED |
 | DEMO-003 | Minimal interactive 2D wiring editor | Physical terminal events, wire changes, topology invariance, undo/redo | PLANNED / NOT_AUTHORIZED |
 | DEMO-004 | Frontend-to-verifier integration and Georgian feedback | No UI-hardcoded findings, stale finding removal, evidence anchors | PLANNED / NOT_AUTHORIZED |
