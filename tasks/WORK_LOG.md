@@ -72,3 +72,8 @@ Format for further entries: date; task ID; observable changes; test commands/out
 
 - Tested the isolated component canvas with live Wokwi Elements, nominal V4 contact geometry, genuine pointer and keyboard wiring, and deterministic visual workspace interchange.
 - Recorded PARTIAL_V4_ASSET_PENDING. The nominal board asset lacks exact WROOM-32E provenance. See the [execution report](../reports/DS-002B-REV2-REPORT.md) for browser evidence and open owner decisions.
+
+## 2026-11-21 — DS-002B-R3
+
+- Verified the exact 32E assembly in Espressif's pinned overview. Opaque callouts cover J2.8 and other hardware details. Recorded the source, rights and candidate findings as OWNER_DECISION_REQUIRED.
+- Re-ran the R2 interaction baseline and targeted Python regressions. The gate stopped replacement rendering and geometry. See the [R3 report](../reports/DS-002B-R3-REPORT.md).
