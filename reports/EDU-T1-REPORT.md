@@ -123,3 +123,7 @@ Initial HTML was 13,472 UTF-8 bytes and pending HTML was 4,106 bytes. The two in
 | `docs/prototype/MASTER_PLAN.md` | Advanced 1.6 to 1.7 and appended only the test-only EDU-T1 row |
 
 Existing practice/engineering APIs, tests, catalogs, fact sources, E1/E2 and the EDU-001 wording packet stayed unchanged. No architectural blocker needed owner adjudication. Owner acceptance and qualified Georgian human review are pending. Hardware acceptance, learner mastery, broad curriculum, alternative routes and visual usability testing remain unestablished.
+
+## G. Git publication
+
+Pushed implementation commit `1a9805410dbf15c1d814c33d5199b933e944deea` with `git push -u origin codex/edu-t1-independent-transfer`. Live `git ls-remote` and a subsequent fetch returned the exact implementation SHA. The checked E2 predecessor and research archival commit remained ancestors, and all four research blobs matched their archived originals. Remote `main` remained at `b1db3e947d04508ca22d4ba55e3172616620bad2`. The ten authorized paths, exact frozen task bytes, links, whitespace, staged credential patterns and narrow master-plan diff were checked. This report-only follow-up records the verified implementation publication.
