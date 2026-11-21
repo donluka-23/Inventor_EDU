@@ -75,3 +75,9 @@ Commands ran from `D:/Inventor_EDU`. Source bytes were inspected in `%TEMP%/Inve
 OSS additions — `NONE`. The candidate bytes stayed in the temporary inspection directory. There was no change to the prototype, its dependencies, editor interactions, Wokwi Elements, or canonical engineering files. The checkpoint can be set aside by returning to the pinned R3 branch.
 
 **Owner decision required.** Provide file-specific confirmation covering the Espressif PCB artwork embodied in the pinned Adom GLB and its planned evaluation render and Git redistribution, or supply an owner-authorized amendment that resolves that scope. Once verified, the orthographic render and 38-contact pixel correspondence would still need execution and owner visual review.
+
+## Git publication
+
+`git diff --check` and `git diff --cached --check` exited 0. The staged review found only the two allowlisted Markdown files, resolved local report links, and found no credential signatures. The staged task had SHA-256 `d204131f3bbd21aa73ce6b02c84e361b7ee04f93f0cee44647d0af0f27e3ec6b` and matched the frozen attachment byte for byte.
+
+`git push -u origin codex/ds-002c-r4a-external-32e-candidate` exited 0. A separate `git ls-remote --heads origin` and fetch verified the blocked checkpoint `900bd8b3157362cd5f8578d7d4b389ea854bbe06`, its pinned R3 predecessor `78168099a649887dfd8f874d7953fff9428fe76c`, and `main` at `b1db3e947d04508ca22d4ba55e3172616620bad2`. This report-only follow-up records the observed publication.
