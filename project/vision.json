@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "product": "INVENTOR EDU",
+  "language_priority": "ka",
+  "target_quality": "polished interactive electronics workbench",
+  "inspiration": [
+    "Wokwi",
+    "Tinkercad Circuits",
+    "KiCad",
+    "LibrePCB",
+    "Shapr3D",
+    "PhET"
+  ],
+  "must_not_claim": [
+    "Wokwi/Tinkercad simulation parity",
+    "whole-circuit electrical safety",
+    "production-validated board artwork",
+    "real hardware measurements without a source"
+  ],
+  "two_modes": {
+    "Create": "Freeform parts, real terminal selection, wire editing, deterministic supported checks, sources/unknowns, save/reopen; no forced lessons",
+    "Learn": "Same canonical project with challenge, predict, connect, observe verified result, guided hint, correction and independent transfer"
+  },
+  "assistant": {
+    "goal": "Interpret only supplied structured engineering calculations and cited evidence according to user intent",
+    "independence": "LLM text and proposals cannot act as engineering facts or mutate projects without explicit user action",
+    "fallback": "Non-LLM inspector and deterministic explanations work without chat"
+  },
+  "primary_journey": [
+    "Open project",
+    "Find exact part",
+    "Place and connect physical terminals",
+    "Inspect scoped check and evidence",
+    "Correct wiring",
+    "Save",
+    "Reload"
+  ],
+  "learning_journey": [
+    "Observe",
+    "Predict",
+    "Build",
+    "Inspect",
+    "Correct",
+    "Transfer"
+  ],
+  "motivating_project": {
+    "name": "CitySense-style sensing node",
+    "purpose": "ESP32 and sensor based interactive learning/building project",
+    "reality": "Use test-only data and label unavailable checks until source-backed hardware properties exist"
+  },
+  "UX": {
+    "require_real_interactions": true,
+    "not_a_flat_chat_dashboard": true,
+    "design_approval": "Owner evaluates actual browser flow; research reference screenshots are not shipping assets",
+    "showcase_states": [
+      "new project",
+      "library search",
+      "part placement",
+      "terminal hover/select",
+      "wire-draft and cancellation",
+      "verified-vs-unknown finding",
+      "Learn hint",
+      "Assistant proposal with approval",
+      "save/reopen",
+      "CitySense example"
+    ]
+  }
+}

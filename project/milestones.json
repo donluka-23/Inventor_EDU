@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "policy": "One working vertical slice and one real browser demonstration at a time; no mandatory research report cycle.",
+  "phases": [
+    {
+      "id": "UI-PROTOTYPE",
+      "status": "NEXT",
+      "goal": "A complete, professional interactive Create/Learn/Assistant UX prototype; build real controls/flows first, clearly mark not-yet-live engineering checks and LLM actions",
+      "acceptance": "Owner can navigate all core flows on desktop and 1024px, select parts, wire, inspect, learn, and see contextual feedback; no dummy clickable controls pretending to save/verify"
+    },
+    {
+      "id": "ENGINEERING-BRIDGE",
+      "status": "PLANNED",
+      "goal": "Connect supported UI actions to Python CircuitSnapshot/net/verifier via typed API",
+      "acceptance": "One source-backed FAIL → correction → scoped PASS and UNKNOWN with real scene replay"
+    },
+    {
+      "id": "PERSISTENCE",
+      "status": "PLANNED",
+      "goal": "Versioned snapshots/layout state and local save/reopen",
+      "acceptance": "Save/reload/undo/redo preserve topology and positions"
+    },
+    {
+      "id": "LEARN-RUNTIME",
+      "status": "PLANNED",
+      "goal": "Use preserved educational feedback and transfer logic in real UI",
+      "acceptance": "One independent task measured against deterministic outputs"
+    },
+    {
+      "id": "ASSISTANT",
+      "status": "PLANNED",
+      "goal": "LLM interpretation with evidence context envelope and explicit action approvals",
+      "acceptance": "Replays are source-grounded; no phantom source, false verdict, unauthorized edit"
+    },
+    {
+      "id": "PROJECT-LIBRARY",
+      "status": "PLANNED",
+      "goal": "Expand to sensor families and CitySense-style projects",
+      "acceptance": "Catalog-driven multi-instance components rather than hardcoded 4 devices"
+    }
+  ]
+}

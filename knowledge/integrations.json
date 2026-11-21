@@ -1,0 +1,44 @@
+{
+  "version": 1,
+  "import_status": "SOURCE_RECOMMENDATIONS_ONLY_NOT_INSTALLED",
+  "choices": [
+    {
+      "name": "@xyflow/react",
+      "previously_used": "12.10.0",
+      "role": "pan/zoom/nodes/edges and terminal handles",
+      "stage": "UI-PROTOTYPE",
+      "note": "Keep, unless measured failures"
+    },
+    {
+      "name": "@wokwi/elements",
+      "previously_used": "1.9.2",
+      "role": "existing renderers / pinInfo",
+      "stage": "UI-PROTOTYPE",
+      "note": "Artwork only, not simulation; no exact ESP32 32E inference"
+    },
+    {
+      "name": "React + TypeScript + Vite",
+      "previously_used": "React 19.2.4 / Vite 8.3.8",
+      "role": "new client implementation",
+      "stage": "UI-PROTOTYPE",
+      "note": "Reference stack, not copied old UI"
+    },
+    {
+      "name": "Python API adapter (FastAPI candidate)",
+      "role": "typed UI-to-core actions",
+      "stage": "ENGINEERING-BRIDGE",
+      "note": "Choose after smallest integration test"
+    },
+    {
+      "name": "tscircuit / KiCanvas",
+      "role": "optional future schematic viewer",
+      "stage": "LATER",
+      "note": "Read-only adapter; provenance and compatibility not yet accepted"
+    }
+  ],
+  "provenance": [
+    "Original GitHub source tree at recorded SHA",
+    "Existing governance/OSS_REGISTER.csv kept as an evidence ledger, not a workflow gate",
+    "Manufacturer and third-party assets require legitimate reuse rights"
+  ]
+}

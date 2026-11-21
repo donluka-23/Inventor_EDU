@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "name": "INVENTOR EDU — clean engineering foundation",
+  "generated_on": "2026-11-21",
+  "source": {
+    "repository": "donluka-23/Inventor_EDU",
+    "commit": "6f153126f7b71c4c8e67a4716e6443f3573b9479",
+    "branch": "codex/ux-nav-001b-contextual-workspace",
+    "history_retained_on_git_clone": true
+  },
+  "export": {
+    "purpose": "restart implementation with a new high-fidelity interactive UI prototype",
+    "original_branches_modified": false,
+    "legacy_frontend_in_snapshot": false,
+    "markdown_files_in_snapshot": 0
+  },
+  "core_status": "PRESERVED_HEADLESS_UNRETESTED_IN_EXPORT",
+  "retained_domains": [
+    "canonical component identity, snapshot and terminal-to-net topology",
+    "versioned/evidence-aware catalog and GPIO facts",
+    "scoped GPIO and scenario verification",
+    "bounded voltage and divider models",
+    "capability discovery and bounded synthesis",
+    "educational feedback, learning session, transfer assessment",
+    "read-only GPIO UI projection",
+    "test fixtures and headless examples"
+  ],
+  "known_missing": [
+    "No frontend application in this export",
+    "No UI-to-CircuitSnapshot action bridge",
+    "No frontend persistence",
+    "No full device simulator or firmware runtime",
+    "No approved exact ESP32-DevKitC-32E artwork",
+    "No user-tested production Georgian copy",
+    "No implemented LLM gateway, provider, or chat frontend"
+  ],
+  "verification": {
+    "status": "SOURCE_TREE_INSPECTED_NOT_EXECUTED_IN_EXPORT",
+    "recommended": "python -m unittest discover -s tests -p test_*.py",
+    "excluded_ui_dependent_tests": [
+      "tests/test_chat001_learning_session.py",
+      "tests/test_edu_t1_transfer.py"
+    ],
+    "excluded_preview": [
+      "examples/chat001_local_preview.py"
+    ]
+  },
+  "current_goal": "Build complete interactive UX prototype first, then connect canonical engineering functions in validated vertical slices",
+  "immediate_next": "Deliver clickable Create/Learn/Assistant workbench with parts, selection, wiring, findings affordances, project lifecycle and CitySense-like project narrative; no invented verified engineering results"
+}

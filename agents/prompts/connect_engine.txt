@@ -1,0 +1,13 @@
+TASK: Integrate one real circuit engineering slice into the approved new UI.
+Do not restructure the existing inventor_edu Python canonical model by default.
+Read project/state.json and the source implementations in inventor_edu/core.py,
+gpio_verify.py, demo_bridge.py, ui_projection.py and their tests.
+Create a minimal typed bridge for one supported board+sensor scenario; transport must not
+be mistaken for a physics simulator. Map explicit user-approved CONNECT/DISCONNECT to
+ComponentInstance + TerminalRef + CircuitSnapshot, recompute actual nets, invoke supported
+GPIO checks and show scoped PASS/FAIL/UNKNOWN/NOT_EVALUATED and reason_code.
+Use existing trusted test data and show a clearly labeled TEST ONLY fixture, not
+manufacturing safety claims. Ensure source revisions and snapshot digests invalidate old
+findings after edits. Cover FAIL -> correction -> scoped PASS and negative/unknown.
+Verify browser wire geometry, save/reopen semantics if available, and Python test runner.
+Report actual observed behavior; avoid adding a new research/report Markdown tree.

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "task_handling": "Implement approved user-facing outcomes; make ordinary technical choices without extra permission",
+  "permission": {
+    "free": [
+      "UI structure, interaction, copy drafts, component decomposition, CSS, local tests, ordinary refactors and test migrations",
+      "adopt low-risk frontend packages after verifying docs/license and reporting"
+    ],
+    "ask_first": [
+      "change the canonical engineering model or electrical formulas",
+      "promote unsupported manufacturer/electrical facts to verified",
+      "publish a final hardware-safety result",
+      "overwrite remote main or irreversibly remove data"
+    ]
+  },
+  "delivery": "Provide working code plus visible browser evidence and test output, not a new research report",
+  "current_session": {
+    "goal": "UI-PROTOTYPE",
+    "status": "NOT_STARTED",
+    "next_action": "Build interactive client from zero without copying rejected frontend",
+    "last_verified_commit": null,
+    "open_blockers": [
+      "exact ESP32 art",
+      "UI-to-core bridge not implemented"
+    ]
+  },
+  "history_policy": "Keep one compact project session record and an append-only line-oriented event log. Do not generate research Markdown by default."
+}

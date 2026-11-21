@@ -1,0 +1,18 @@
+TASK: Build the new INVENTOR EDU workbench UI/UX prototype. This is implementation, not research.
+Read project/vision.json, project/milestones.json, project/state.json and agents/session.json.
+Create the first interactive product UI under apps/workbench using a modern React/TypeScript setup.
+Use Wokwi Elements and React Flow as candidate reusable modules; verify current docs/licenses before adding.
+Design for real Create and Learn flows sharing one project/selection/layout state.
+Offer: project open/create, component catalog with real supported parts, canvas placement,
+wire editing with clearly distinct inspect vs connect modes, contextual part/pin/net inspector,
+diagnostics presentation, Learn challenge/predict/hint/correct/transfer interactions,
+Assistant panel with source-context slots and explicit proposed-action confirmation,
+and a CitySense-style example project browsing flow.
+Make interactions functional and testable; do NOT substitute a static mockup.
+Do not fabricate electronic checks, LLM responses, exact ESP32 imagery, or local persistence.
+Clearly label intentionally unavailable backend features or use source-identified test fixtures.
+Decide normal layout/details/low-risk dependencies yourself. Do not create lengthy research reports.
+Use browser verification at 1440x900 and 1024x768 with Playwright, report screenshots and tests.
+Prioritize delightful direct manipulation, Georgian typography, legible dense labels and true empty states.
+Do not copy rejected generated visual mockups or proprietary app assets.
+Deliver the actual running prototype plus short list of remaining integration seams.
