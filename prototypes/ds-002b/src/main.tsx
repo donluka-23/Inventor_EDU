@@ -4,4 +4,5 @@ import { Workspace } from './Workspace'
 import '@xyflow/react/dist/style.css'
 import './style.css'
 
-createRoot(document.getElementById('root')!).render(<ReactFlowProvider><Workspace /></ReactFlowProvider>)
+const entry = window.location.pathname === '/' && window.location.search === '?ux=entry'
+createRoot(document.getElementById('root')!).render(<ReactFlowProvider><Workspace entry={entry} /></ReactFlowProvider>)

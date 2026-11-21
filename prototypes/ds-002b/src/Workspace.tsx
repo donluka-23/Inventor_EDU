@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { applyNodeChanges, Background, BaseEdge, ConnectionMode, ReactFlow, useReactFlow } from '@xyflow/react'
 import type { Edge, EdgeProps, Node, NodeChange } from '@xyflow/react'
 import { DeviceNode } from './DeviceNode'
+import { ComponentShelf } from './ComponentShelf'
 import type { CanvasNode } from './DeviceNode'
 import { assets, changeWire, devices, exportWorkspace, importWorkspace, initialPositions, pinHitSize, terminalKey } from './model'
 import type { Device, Pin, PositionMap, Registry, Terminal, Wire } from './model'
@@ -31,8 +32,8 @@ const initialLayout: LayoutNode[] = devices.map(device => ({
   id: device, type: 'part', position: initialPositions[device], dragHandle: '.drag-part', selectable: false, data: { device },
 }))
 
-export function Workspace() {
-  const [layout, setLayout] = useState(initialLayout)
+export function Workspace({ entry }: { entry: boolean }) {
+  const [layout, setLayout] = useState(() => entry ? [] : initialLayout)
   const [registry, setRegistry] = useState<Registry>({})
   const [errors, setErrors] = useState<Partial<Record<Device, string>>>({})
   const [history, setHistory] = useState(initialHistory)
@@ -47,6 +48,12 @@ export function Workspace() {
   const wires = history.present
   const selectedWire = wires.find(wire => wire.id === selected)
   const livePin = (ref: Terminal) => registry[ref.instanceId]?.some(pin => pin.id === ref.visualPinId)
+
+  const placePart = (device: Device) => {
+    if (!entry || device === 'board') return
+    const part = initialLayout.find(node => node.id === device)
+    if (part) setLayout(current => current.some(node => node.id === part.id) ? current : [...current, part])
+  }
 
   const onPins = useCallback((device: Device, pins: Pin[] | null, error?: string) => {
     setRegistry(previous => ({ ...previous, [device]: pins ?? undefined }))
@@ -81,7 +88,7 @@ export function Workspace() {
       commit(next)
       select(draft.rewire ?? next.at(-1)!.id)
       setDraft(undefined)
-      setMessage('Visual wire saved.')
+      setMessage(entry ? 'Visual wire connected.' : 'Visual wire saved.')
     } catch (error) { setMessage((error as Error).message) }
   }
   const beginRewire = () => {
@@ -111,6 +118,7 @@ export function Workspace() {
 
   useEffect(() => {
     const hotkeys = (event: KeyboardEvent) => {
+      if (entry && document.querySelector('dialog[open]')) return
       if (event.key === 'Escape' && draft) { event.preventDefault(); cancel(); return }
       if ((event.target as HTMLElement | null)?.closest('input, textarea, select, [contenteditable]')) return
       if (event.key === 'Delete' && selectedWire) { event.preventDefault(); remove() }
@@ -152,13 +160,16 @@ export function Workspace() {
 
   return <main className="workspace">
     <header className="topbar">
-      <div className="brand"><span className="brand-mark" aria-hidden="true">⟐</span><div><strong>Inventor EDU</strong><small>Component workspace</small></div></div>
+      {entry ? <>
+        <h1 className="entry-heading" lang="ka">INVENTOR EDU — ვიზუალური ექსპერიმენტი</h1>
+        <ComponentShelf placed={new Set(layout.map(node => node.data.device))} onPlace={placePart} />
+      </> : <div className="brand"><span className="brand-mark" aria-hidden="true">⟐</span><div><strong>Inventor EDU</strong><small>Component workspace</small></div></div>}
       <div className="toolbar" aria-label="Editing tools">
         <button type="button" disabled={!history.past.length} onClick={undo}>↶ Undo</button>
         <button type="button" disabled={!history.future.length} onClick={redo}>↷ Redo</button>
         <button type="button" onClick={() => { void flow.fitView({ padding: .35, maxZoom: 1 }) }}>Fit view</button>
       </div>
-      <div className="mode"><span/> Visual only</div>
+      {!entry && <div className="mode"><span/> Visual only</div>}
     </header>
     <div className="content">
       <section className="viewport" aria-label="Circuit canvas">
@@ -183,7 +194,8 @@ export function Workspace() {
         </div>
       </section>
       <aside className="inspector" aria-label="Workspace inspector">
-        <h1>Inspector</h1>
+        {entry ? <h2>Inspector</h2> : <h1>Inspector</h1>}
+        {entry && layout.length === 0 && <p lang="ka">კომპონენტები ჯერ არ არის დამატებული</p>}
         <section>
           <h2>Contact</h2>
           <label htmlFor="pin-locator">Find a physical contact</label>
@@ -198,7 +210,8 @@ export function Workspace() {
             <strong>{terminalKey(inspected)}</strong>
             <small>{livePin(inspected) ? 'VISUAL_PIN_AVAILABLE' : 'VISUAL_PIN_UNAVAILABLE'}</small>
             <small>CANONICAL_MAPPING_UNAVAILABLE</small>
-          </div> : <p>Hover a pin or find it by its physical ID.</p>}
+          </div> : entry ? <p lang="ka">კონტაქტი არ არის არჩეული</p> :
+            <p>Hover a pin or find it by its physical ID.</p>}
         </section>
         <section>
           <h2>Wires <span className="count">{wires.length}</span></h2>
@@ -215,20 +228,25 @@ export function Workspace() {
             <button type="button" onClick={remove}>Delete wire</button>
           </div>}
         </section>
-        <details className="transfer">
+        {!entry && <details className="transfer">
           <summary>Visual workspace JSON</summary>
           <label htmlFor="workspace-json">Workspace data</label>
           <textarea id="workspace-json" spellCheck={false} value={transfer} onChange={event => setTransfer(event.target.value)} />
           <div className="wire-actions"><button type="button" onClick={copyOut}>Export</button><button type="button" onClick={load}>Import</button></div>
-        </details>
+        </details>}
         <details className="provenance">
           <summary>Asset provenance</summary>
-          <p>Innerscene CC0 nominal ESP32-DevKitC V4 CAD. Exact ESP32-WROOM-32E fit is pending. Contact names follow Espressif header order.</p>
+          {!entry && <p>Innerscene CC0 nominal ESP32-DevKitC V4 CAD. Exact ESP32-WROOM-32E fit is pending. Contact names follow Espressif header order.</p>}
           <p>HC-SR04, LED and resistor by Wokwi Elements 1.9.2 (MIT).</p>
         </details>
         {Object.entries(errors).filter(([, error]) => error).map(([device, error]) => <p key={device} role="alert">{assets[device as Device].name}: {error}</p>)}
       </aside>
     </div>
-    <footer className="statusbar"><strong>NOT_ENGINEERING_VERIFIED</strong><span role="status">{message || 'No electrical or firmware simulation.'}</span><span className="status-shortcuts">Enter select · Esc cancel · Del remove</span></footer>
+    <footer className="statusbar">
+      <strong>{entry ? 'VISUAL_ONLY_NOT_ENGINEERING_VERIFIED' : 'NOT_ENGINEERING_VERIFIED'}</strong>
+      {entry && <span>TEST_ONLY · SEMANTIC_EXPERIMENT_NOT_VISUAL_DESIGN</span>}
+      <span role="status">{message || 'No electrical or firmware simulation.'}</span>
+      <span className="status-shortcuts">Enter select · Esc cancel · Del remove</span>
+    </footer>
   </main>
 }
