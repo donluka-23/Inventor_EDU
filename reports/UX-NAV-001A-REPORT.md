@@ -73,3 +73,9 @@ The captures are actual Chromium PNGs. The first shows the named wire and select
 The observed alignment compares browser wire endpoints with real renderer handles. It supplies visual geometry evidence for this experiment. It supplies no physical board qualification, canonical engineering mapping, capability verdict or electrical safety evidence. The native dialog and existing editor styling are for behavioral review. Production visual design and user experience acceptance remain owner decisions.
 
 OSS additions — `NONE`. The existing Wokwi Elements 1.9.2 and React Flow 12.10.0 installation was reused. The lockfile, assets and legacy tests were preserved. An owner-authorized revert of the task commits would restore the pinned baseline. Review this semantic experiment and its evidence in the architecture conversation.
+
+## Git publication
+
+The staged review found exactly nine authorized paths. The tested source and both actual Chromium PNGs matched the staged content. Local report links resolved, the credential-pattern scan found no matches, and both working and staged whitespace checks exited 0. The staged attachment matched the handoff byte for byte, SHA-256 `349d4b5cfffd155888e4baf7344bea8f12a0a79c6d4e2caec76d83dba7b0b36f`.
+
+`git push -u origin codex/ux-nav-001a-semantic-component-entry` exited 0. A separate live ref query and fetch verified implementation commit `482e62164a47686f380d94fcb1e07180d8983a01`, the predecessor at `771b45a6215fb32d8ba326ec9debe5c857adadcd`, and remote `main` at `b1db3e947d04508ca22d4ba55e3172616620bad2`. This report-only follow-up records the verified implementation publication.
