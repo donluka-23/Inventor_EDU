@@ -155,4 +155,8 @@ The contextual workspace and the browser evidence are ready for owner review on 
 
 ### Rev 1.1 Git publication
 
-The implementation and its evidence are staged for the existing task branch. Commit and live ref verification are recorded after publication.
+Implementation commit — `ba63a04f2e9b191ac9adeaaa377df346a2203338`.
+
+The complete staged diff contained the nine authorized paths. The reviewed staged source, tests and PNGs matched the browser-run files. The staged amendment matched the attachment under Git's configured line-ending normalization. The secret-pattern scan found no matches, the report's local links resolved, and both staged and working-tree whitespace checks exited 0.
+
+`git push origin codex/ux-nav-001b-contextual-workspace` exited 0. A separate live `git ls-remote` verified the implementation as the branch tip at `ba63a04f2e9b191ac9adeaaa377df346a2203338` and `main` at its preflight SHA `b1db3e947d04508ca22d4ba55e3172616620bad2`. This report-only follow-up records that verified publication.
