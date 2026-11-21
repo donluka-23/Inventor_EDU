@@ -67,4 +67,8 @@ To unblock this revision, explicitly authorize migration of the affected UX-NAV-
 
 ## Git publication
 
-Implementation commit — `NONE`. The task branch contains a documentation checkpoint. Publication verification is recorded below after the checkpoint is pushed.
+Implementation commit — `NONE`. Documentation checkpoint — `0c7331a0a4b3bb90a92f2507b911a77433f65601`.
+
+Both `git diff --check` and `git diff --cached --check` exited 0. The complete staged diff contained the two documentation paths listed above. The staged handoff matched the attachment after Git's configured line-ending normalization. The working-copy SHA-256 matched the attachment, and the staged credential-pattern scan found no matches. Local report links resolve to the handoff and the existing entry spec.
+
+`git push -u origin codex/ux-nav-001b-contextual-workspace` exited 0 and established tracking. A separate live `git ls-remote` verified the checkpoint at `0c7331a0a4b3bb90a92f2507b911a77433f65601`. The prior task branch and `main` still pointed to the preflight SHAs. This report-only follow-up records the verified checkpoint publication.
