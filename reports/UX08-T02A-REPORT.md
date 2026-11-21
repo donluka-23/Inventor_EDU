@@ -52,3 +52,9 @@ Commands ran from `D:/Inventor_EDU` with the existing locked CPython 3.12.8 and 
 The native probe verifies only the reported input contradiction. It establishes no electrical compatibility, deployment trust, report currentness, or hardware safety. No dependencies, external source material, engineering implementations, or assets were introduced. Browser, simulator, network experiment, and UI validation were outside the task.
 
 Owner decision required before implementation. Specify the required error for a native-shaped nested ruleset mismatch that also fails strict validation, or revise the T02A-08 ruleset oracle. The checkpoint has two Markdown files and its parent is the pinned baseline. Review this report in the architecture conversation before authorizing further implementation.
+
+## Git publication
+
+`git diff --cached --check` exited 0. The staged scope contained the two listed Markdown files. The staged handoff matched the attachment byte for byte, with SHA-256 `a8153cb39dc9b01470cffc5b9c1d9c56b51ec3fe69a40603c3e40551f28d86e3`. The credential-pattern scan found no matches.
+
+`git push -u origin codex/ux08-t02a-source-native-gpio-projection` exited 0. Independent `git ls-remote --heads origin` and fetch verified the blocked checkpoint at `c1b273c0686dadc3d80c87366acc799d5a80a615`, the pinned predecessor at `78168099a649887dfd8f874d7953fff9428fe76c`, and `main` at `b1db3e947d04508ca22d4ba55e3172616620bad2`. This report follow-up records the observed publication.
