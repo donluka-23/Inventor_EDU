@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { applyNodeChanges, Background, BaseEdge, ConnectionMode, ReactFlow, useReactFlow } from '@xyflow/react'
 import type { Edge, EdgeProps, Node, NodeChange } from '@xyflow/react'
 import { DeviceNode } from './DeviceNode'
@@ -44,10 +44,27 @@ export function Workspace({ entry }: { entry: boolean }) {
   const [transfer, setTransfer] = useState('')
   const [locator, setLocator] = useState('')
   const [actualZoom, setActualZoom] = useState(1)
+  const [shelfOpen, setShelfOpen] = useState(false)
+  const [inspectorOpen, setInspectorOpen] = useState(false)
+  const [inspectTarget, setInspectTarget] = useState<'terminal' | 'wire'>('terminal')
+  const shelfOpener = useRef<HTMLButtonElement>(null)
+  const inspectControl = useRef<HTMLButtonElement>(null)
   const flow = useReactFlow<CanvasNode, WireEdge>()
   const wires = history.present
   const selectedWire = wires.find(wire => wire.id === selected)
   const livePin = (ref: Terminal) => registry[ref.instanceId]?.some(pin => pin.id === ref.visualPinId)
+  const closeShelf = () => {
+    setShelfOpen(false)
+    shelfOpener.current?.focus({ preventScroll: true })
+  }
+  const closeInspector = () => {
+    setInspectorOpen(false)
+    const terminal = inspectTarget === 'terminal' && inspected && terminalKey(inspected)
+    const handle = terminal && Array.from(document.querySelectorAll<HTMLElement>('[data-terminal]'))
+      .find(element => element.dataset.terminal === terminal)
+    const returnTarget = handle || inspectControl.current || shelfOpener.current
+    returnTarget?.focus({ preventScroll: true })
+  }
 
   const placePart = (device: Device) => {
     if (!entry || device === 'board') return
@@ -80,6 +97,10 @@ export function Workspace({ entry }: { entry: boolean }) {
   }
   const selectPin = (pin: Terminal) => {
     inspect(pin)
+    if (entry) {
+      setInspectTarget('terminal')
+      setInspectorOpen(true)
+    }
     setMessage('')
     if (!livePin(pin)) return setMessage('Pin unavailable.')
     if (!draft) return setDraft({ from: pin })
@@ -90,6 +111,13 @@ export function Workspace({ entry }: { entry: boolean }) {
       setDraft(undefined)
       setMessage(entry ? 'Visual wire connected.' : 'Visual wire saved.')
     } catch (error) { setMessage((error as Error).message) }
+  }
+  const inspectWire = (id: string) => {
+    select(id)
+    if (entry) {
+      setInspectTarget('wire')
+      setInspectorOpen(true)
+    }
   }
   const beginRewire = () => {
     if (selectedWire && livePin(selectedWire.a)) {
@@ -118,7 +146,12 @@ export function Workspace({ entry }: { entry: boolean }) {
 
   useEffect(() => {
     const hotkeys = (event: KeyboardEvent) => {
-      if (entry && document.querySelector('dialog[open]')) return
+      if (event.key === 'Escape' && entry && (shelfOpen || inspectorOpen)) {
+        event.preventDefault()
+        if (shelfOpen) closeShelf()
+        else closeInspector()
+        return
+      }
       if (event.key === 'Escape' && draft) { event.preventDefault(); cancel(); return }
       if ((event.target as HTMLElement | null)?.closest('input, textarea, select, [contenteditable]')) return
       if (event.key === 'Delete' && selectedWire) { event.preventDefault(); remove() }
@@ -136,7 +169,7 @@ export function Workspace({ entry }: { entry: boolean }) {
     ...node,
     data: {
       device: node.data.device, draft: draft ? terminalKey(draft.from) : '', selected: inspected ? terminalKey(inspected) : '',
-      onPins, onPin: selectPin, onInspect: inspect,
+      onPins, onPin: selectPin, onInspect: entry ? () => {} : inspect,
     },
   }))
   const edges: WireEdge[] = wires.filter(wire => livePin(wire.a) && livePin(wire.b)).map(wire => ({
@@ -156,13 +189,26 @@ export function Workspace({ entry }: { entry: boolean }) {
     const position = flow.screenToFlowPosition({ x: point.x + point.width / 2, y: point.y + point.height / 2 })
     void flow.setCenter(position.x, position.y, { zoom: Math.max(actualZoom, 1) })
     target.focus({ preventScroll: true })
+    if (entry) {
+      const [instanceId, visualPinId] = locator.split('/')
+      const device = devices.find(id => id === instanceId)
+      if (device) {
+        inspect({ instanceId: device, visualPinId })
+        setInspectTarget('terminal')
+      }
+    }
   }
 
-  return <main className="workspace">
+  const visibleTerminal = !entry || inspectTarget === 'terminal' ? inspected : undefined
+  const alerts = Object.entries(errors).filter(([, error]) => error)
+    .map(([device, error]) => <p key={device} role="alert">{assets[device as Device].name}: {error}</p>)
+
+  return <main className={entry ? 'workspace ux-entry' : 'workspace'}>
     <header className="topbar">
       {entry ? <>
         <h1 className="entry-heading" lang="ka">INVENTOR EDU — ვიზუალური ექსპერიმენტი</h1>
-        <ComponentShelf placed={new Set(layout.map(node => node.data.device))} onPlace={placePart} />
+        <ComponentShelf placed={new Set(layout.map(node => node.data.device))} onPlace={placePart}
+          open={shelfOpen} opener={shelfOpener} onOpen={() => setShelfOpen(true)} onClose={closeShelf} />
       </> : <div className="brand"><span className="brand-mark" aria-hidden="true">⟐</span><div><strong>Inventor EDU</strong><small>Component workspace</small></div></div>}
       <div className="toolbar" aria-label="Editing tools">
         <button type="button" disabled={!history.past.length} onClick={undo}>↶ Undo</button>
@@ -175,7 +221,7 @@ export function Workspace({ entry }: { entry: boolean }) {
       <section className="viewport" aria-label="Circuit canvas">
         <ReactFlow<CanvasNode, WireEdge> nodes={nodes} edges={edges} nodeTypes={nodeTypes} edgeTypes={edgeTypes}
           connectionMode={ConnectionMode.Loose} onNodesChange={moveNodes}
-          onEdgeClick={(_event, edge) => { select(edge.id); setMessage('') }}
+          onEdgeClick={(_event, edge) => { inspectWire(edge.id); setMessage('') }}
           onMove={(_event, viewport) => setActualZoom(viewport.zoom)}
           onInit={instance => { void instance.setCenter(421, 252, { zoom: 1 }) }}
           minZoom={.15} maxZoom={3} deleteKeyCode={null} nodesConnectable={false} connectOnClick={false} panOnDrag
@@ -186,16 +232,28 @@ export function Workspace({ entry }: { entry: boolean }) {
           <Background gap={19} size={1} color="#3b4850" />
         </ReactFlow>
         <div className="canvas-title"><span/> Circuit canvas</div>
+        {entry && layout.length === 0 && <p className="empty-prompt" lang="ka">დაიწყე კომპონენტის დამატებით</p>}
+        {entry && alerts.length > 0 && <div className="canvas-alerts">{alerts}</div>}
         <div className="zoom-control" aria-label="Canvas zoom">
           {[.5, 1, 2].map(zoom => <button type="button" key={zoom} aria-label={'Zoom ' + zoom + 'x'}
             aria-pressed={Math.abs(actualZoom - zoom) < .001}
             onClick={() => { void flow.zoomTo(zoom) }}>{zoom}×</button>)}
           <output aria-label="Current zoom">{Math.round(actualZoom * 100)}%</output>
         </div>
+        {entry && (inspected || selectedWire) && <button type="button" className="inspect-control"
+          ref={inspectControl} aria-expanded={inspectorOpen} aria-controls="contextual-inspector"
+          onClick={() => {
+            if (inspectorOpen) closeInspector()
+            else setInspectorOpen(true)
+          }}>Inspect</button>}
       </section>
-      <aside className="inspector" aria-label="Workspace inspector">
-        {entry ? <h2>Inspector</h2> : <h1>Inspector</h1>}
-        {entry && layout.length === 0 && <p lang="ka">კომპონენტები ჯერ არ არის დამატებული</p>}
+      <aside className={entry ? 'inspector entry-panel' : 'inspector'} aria-label="Workspace inspector"
+        id={entry ? 'contextual-inspector' : undefined}
+        data-open={entry ? inspectorOpen : undefined} inert={entry ? !inspectorOpen : undefined}>
+        {entry ? <div className="panel-heading">
+          <h2>Inspector</h2>
+          <button type="button" lang="ka" onClick={closeInspector}>დახურვა</button>
+        </div> : <h1>Inspector</h1>}
         <section>
           <h2>Contact</h2>
           <label htmlFor="pin-locator">Find a physical contact</label>
@@ -206,9 +264,9 @@ export function Workspace({ entry }: { entry: boolean }) {
             </select>
             <button type="button" disabled={!locator} onClick={locate}>Focus</button>
           </div>
-          {inspected ? <div className="contact-readout">
-            <strong>{terminalKey(inspected)}</strong>
-            <small>{livePin(inspected) ? 'VISUAL_PIN_AVAILABLE' : 'VISUAL_PIN_UNAVAILABLE'}</small>
+          {visibleTerminal ? <div className="contact-readout">
+            <strong>{terminalKey(visibleTerminal)}</strong>
+            <small>{livePin(visibleTerminal) ? 'VISUAL_PIN_AVAILABLE' : 'VISUAL_PIN_UNAVAILABLE'}</small>
             <small>CANONICAL_MAPPING_UNAVAILABLE</small>
           </div> : entry ? <p lang="ka">კონტაქტი არ არის არჩეული</p> :
             <p>Hover a pin or find it by its physical ID.</p>}
@@ -219,10 +277,15 @@ export function Workspace({ entry }: { entry: boolean }) {
           {draft && <button type="button" onClick={cancel}>Cancel draft</button>}
           <ul className="wire-list">
             {wires.map(wire => <li key={wire.id}><button type="button" aria-pressed={selected === wire.id}
-              onClick={() => select(wire.id)}>
+              onClick={() => inspectWire(wire.id)}>
               {terminalKey(wire.a)} <span aria-hidden="true">→</span> {terminalKey(wire.b)}
             </button></li>)}
           </ul>
+          {entry && inspectTarget === 'wire' && selectedWire && <div className="contact-readout">
+            <strong>{selectedWire.id}</strong>
+            <small>{livePin(selectedWire.a) && livePin(selectedWire.b) ? 'VISUAL_PIN_AVAILABLE' : 'VISUAL_PIN_UNAVAILABLE'}</small>
+            <small>CANONICAL_MAPPING_UNAVAILABLE</small>
+          </div>}
           {selectedWire && <div className="wire-actions">
             <button type="button" onClick={beginRewire}>Rewire destination</button>
             <button type="button" onClick={remove}>Delete wire</button>
@@ -239,7 +302,7 @@ export function Workspace({ entry }: { entry: boolean }) {
           {!entry && <p>Innerscene CC0 nominal ESP32-DevKitC V4 CAD. Exact ESP32-WROOM-32E fit is pending. Contact names follow Espressif header order.</p>}
           <p>HC-SR04, LED and resistor by Wokwi Elements 1.9.2 (MIT).</p>
         </details>
-        {Object.entries(errors).filter(([, error]) => error).map(([device, error]) => <p key={device} role="alert">{assets[device as Device].name}: {error}</p>)}
+        {!entry && alerts}
       </aside>
     </div>
     <footer className="statusbar">

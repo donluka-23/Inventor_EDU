@@ -72,3 +72,87 @@ Implementation commit — `NONE`. Documentation checkpoint — `0c7331a0a4b3bb90
 Both `git diff --check` and `git diff --cached --check` exited 0. The complete staged diff contained the two documentation paths listed above. The staged handoff matched the attachment after Git's configured line-ending normalization. The working-copy SHA-256 matched the attachment, and the staged credential-pattern scan found no matches. Local report links resolve to the handoff and the existing entry spec.
 
 `git push -u origin codex/ux-nav-001b-contextual-workspace` exited 0 and established tracking. A separate live `git ls-remote` verified the checkpoint at `0c7331a0a4b3bb90a92f2507b911a77433f65601`. The prior task branch and `main` still pointed to the preflight SHAs. This report-only follow-up records the verified checkpoint publication.
+
+---
+
+## Rev 1.1 continuation — 2026-11-21, Asia/Tbilisi
+
+**Current outcome — `FUNCTIONAL_AND_EXPERIMENTAL_VISUAL_CONTRACT_PASS`**
+
+The Rev 1.0 BLOCKED result and its baseline-only test history are retained above. The owner superseded the conflicting entry-route presentation assertions through decision UXB-D01 in the [Rev 1.1 handoff](../tasks/UX-NAV-001B-REV1_1.md).
+
+### A. Continuation preflight
+
+Read the mandatory governance documents, ADR-0001, both handoffs, the Rev 1.0 report and named source and tests. `git status -sb`, `git remote -v`, `git rev-parse HEAD`, `git fetch --prune origin`, `git rev-parse '@{upstream}'` and a live `git ls-remote` confirmed that the existing task branch, tracking branch and live remote pointed to `9ddcfa3dd31fb9e89d0f0903585f8c374c13720f`. The remote is `https://github.com/donluka-23/Inventor_EDU.git`. Both `git merge-base --is-ancestor` checks exited 0 for the original UX-NAV-001A base `561b33f8339c3f9985ba75667650e5c1cb4b4d77` and blocked checkpoint `0c7331a0a4b3bb90a92f2507b911a77433f65601`. The tracked worktree and index started clean. The two untracked research locations were preserved. The session stayed on `codex/ux-nav-001b-contextual-workspace`.
+
+### B. Browser implementation
+
+The exact route `http://127.0.0.1:4173/?ux=entry` uses a 56 px header and one full-width React Flow canvas. It starts empty and shows `დაიწყე კომპონენტის დამატებით` until the first supported placement. The Inspect control is available only after selecting a terminal or wire. The existing toolbar, fit view, pan, zoom and visual wire history remain available. The visual-only and test-only qualifications appear in the footer.
+
+The shelf opens as a labeled in-page region inside the workspace. The search receives focus. The operator can drag the canvas beside the panel. The `დახურვა` action and Escape restore opener focus and leave canvas selection and drafts intact. Placement closes the shelf, preserves the viewport and leaves existing components and wires in place. HC-SR04, LED and resistor remain single-instance placements. ESP32 remains disabled.
+
+Activating a physical contact or clicking a wire opens the lower-right Inspector. It displays the selected visual identity, pin availability and `CANONICAL_MAPPING_UNAVAILABLE`. The existing physical-contact locator, wire list, rewire and delete actions are accessible in the panel. Closing it preserves selection and wiring. The selected contact or Inspect control receives focus on dismissal. Missing renderer geometry continues to suppress the affected handles and wire; the resulting alert remains visible on the canvas.
+
+### C. Exact change manifest
+
+| Path | Change |
+| --- | --- |
+| `prototypes/ds-002b/src/Workspace.tsx` | Entry-only workspace structure, selection-driven Inspector, overlay and focus handling, unchanged visual wiring state and legacy rendering. |
+| `prototypes/ds-002b/src/ComponentShelf.tsx` | Labeled non-modal region, close control, search focus and single placement. |
+| `prototypes/ds-002b/src/style.css` | Scoped .ux-entry layout, panel dimensions, 140 ms opacity/translation and reduced-motion handling. |
+| `prototypes/ds-002b/tests/contextual-workspace.spec.ts` | Eight UXB browser cases and two real Chromium captures. |
+| `prototypes/ds-002b/tests/entry-shelf.spec.ts` | Seven retained cases with the owner-authorized semantic and assertion migration. |
+| `prototypes/ds-002b/evidence/ux-nav-001b-workspace-1440x900.png` | Connected HC-SR04 and LED with the wire Inspector open. |
+| `prototypes/ds-002b/evidence/ux-nav-001b-workspace-1024x768.png` | Open shelf with focus, placed sensor and LED, and available resistor. |
+| `tasks/UX-NAV-001B-REV1_1.md` | Verbatim owner amendment. SHA-256 `73283aeeb4250f985f827f1afc89f05f68329d2d3734b582d2499a3c4cab37ee`. |
+| `reports/UX-NAV-001B-REPORT.md` | Appended Rev 1.1 implementation, verification and publication. |
+
+### D. Oracle migration and acceptance
+
+`UX-NAV-001A_PREVIOUS_PRESENTATION_SUPERSEDED_BY_UXB_REV1_1`
+
+The affected assertions were migrated before implementation. The [entry regression spec](../prototypes/ds-002b/tests/entry-shelf.spec.ts) now locates the shelf by its named region (former line 6). The former visible text assertions at lines 62–63 now verify the new exact empty prompt, hidden Inspector and the prompt disappearing after placement. The former zero-button assertion at line 89 now verifies zero placement actions and one available `დახურვა` button. Dismissal is exercised through the close control and Escape with text in the search field, including with an open Inspector and a live wire draft. Pin, draft, selection, wire and position assertions still exercise contextual readouts after selection. The two historical keyboard journeys still capture 1440×900 and 1024×768 in the temporary archive. The seven entry cases and five byte-identical canvas cases executed.
+
+| Criterion | Outcome | Observed evidence |
+| --- | --- | --- |
+| UXB-01 | PASS | Header measured 56 px. Canvas filled all 1440 px in entry and the historical 1188 px beside the 252 px Inspector on root. Canvas bounds and transform stayed identical after overlays opened or closed. |
+| UXB-02 | PASS | Named non-modal region, case-insensitive search, search focus and restored opener focus. Drag outside the open shelf changed the actual viewport while the shelf stayed open. |
+| UXB-03 | PASS | Real Wokwi renderers and handles for HC-SR04, LED and resistor. Duplicate actions unavailable. Existing positions, wire path and zoom preserved. |
+| UXB-04 | PASS | Keyboard-activated `sensor/TRIG` displayed real terminal ID and visual availability. Locator focused `led/A`. Actual click on the wire selected `wire:1` with both wire actions. Closing preserved the wire path and restored usable focus. |
+| UXB-05 | PASS | LED drag changed the actual wire path. Maximum endpoint error measured 0.0000 CSS px at 0.5×, 1× and 2×, with the strict threshold below 2 CSS px. Undo removed the edge and Redo restored it. |
+| UXB-06 | PASS | Disabled ESP32 resisted placement. Invalid search returned no match and no place action. Invalid real renderer pinInfo withheld LED handles and its dependent visual edge, preserved sensor handles, and exposed `VISUAL_PIN_UNAVAILABLE`. No fabricated engineering verdict or unsupported product state observed. |
+| UXB-07 | PASS | 140 ms opacity and translation transitions, zero transition duration under reduced motion, visible keyboard focus, Escape and no backdrop or horizontal overflow at 1024×768. |
+| UXB-08 | PASS | Typecheck, build, 3 unit tests, 5 unchanged legacy cases, 7 migrated entry cases and 8 new UXB cases passed. Monitored browser journeys recorded zero page exceptions, off-origin requests or experimental board image requests. The reviewed diff was confined to the nine authorized paths. |
+| Chromium visual gate | PASS | Both PNGs decoded at their specified sizes and were visually inspected. Their panel placement, rendering and readable Georgian controls matched the measured behavior below. |
+
+### E. Commands and actual results
+
+Runtime — Node `v24.16.0`, npm `11.13.0`, Vite `8.3.8`, Playwright `1.65.1`, Chromium `151.0.7922.34`. The installed React Flow `12.10.0` and Wokwi Elements `1.9.2` were reused.
+
+| Command | Observed Rev 1.1 result |
+| --- | --- |
+| `npm run typecheck` | Exit 0. `tsc --noEmit` completed. |
+| `npm run build` | Exit 0. 61 modules transformed, 182 ms build. React Flow's module-level `use client` emitted a bundling warning. |
+| `npm test` | Exit 0. 3 passed, no failures, skips or cancellations. |
+| `npm run test:e2e` | Exit 0. 20 passed in 37.5 s using one Chromium worker. No failures, retries or skips. The run emitted a Node color-environment warning and the Lit development-mode warning. |
+| `git diff --check` | Exit 0. Git emitted working-copy line-ending normalization warnings. |
+
+Typecheck, build and unit tests ran from the repository's `prototypes/ds-002b`. The browser command ran from that prototype path within a throwaway `git archive` of the pinned tree with the five changed source/spec files copied in. A junction reused the installed dependencies and `DS002B_CHROMIUM` selected the installed Chromium. The unchanged Playwright config started Vite at `127.0.0.1:4173`. No test or build command failed. Hash comparison confirmed the tested source and specs matched the working copy. Only the two new UXB PNGs were copied to the repository.
+
+### F. Visual inspection
+
+- [1440×900 Chromium capture](../prototypes/ds-002b/evidence/ux-nav-001b-workspace-1440x900.png) shows the actual HC-SR04 and LED connected, with the `wire:1` readout, real action buttons and the canvas extending behind the floating Inspector. Playwright measured the 296 px panel at x=1128, 16 px from the right and 58 px above the canvas bottom. The computed maximum height was 540 px (60vh), with internal scrolling.
+- [1024×768 Chromium capture](../prototypes/ds-002b/evidence/ux-nav-001b-workspace-1024x768.png) shows the focused search, readable disabled ESP32 entry, HC-SR04 and LED marked placed, and resistor placement available. The 320 px panel begins at x=16, y=72, 16 px below the header. Its computed maximum height was 537.6 px (70vh), with internal scrolling. There was no centered dialog, backdrop, clipped Georgian label or horizontal overflow. Outside-panel panning was tested separately.
+- Both captures show the qualifications in the footer and use the original device renderers. Compared with UX-NAV-001A, the entry canvas now spans the full workspace and the two interfaces appear only in context.
+
+### G–J. Limits, OSS and owner review
+
+Geometry evidence measures CSS-pixel alignment with real rendered contacts. It establishes visual wiring behavior in this experiment. Canonical mapping, physical board qualification, electrical verdicts and production visual approval remain outside this result. The Georgian text remains experimental and has not received human production review.
+
+OSS and licensing changes — `NONE`. Existing dependencies, art, license metadata, catalogs, engineering modules, T02A projection, legacy browser spec, Rev 1.0 handoff and historical screenshot files were preserved. The current observed task outcome is recorded here. `docs/STATUS.md` and `tasks/NEXT.md` retain their existing tracking entries under the explicit read-only boundary. An owner-authorized revert of the Rev 1.1 commits would restore the prior task checkpoint.
+
+The contextual workspace and the browser evidence are ready for owner review on the task branch.
+
+### Rev 1.1 Git publication
+
+The implementation and its evidence are staged for the existing task branch. Commit and live ref verification are recorded after publication.
