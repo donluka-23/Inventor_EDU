@@ -134,3 +134,9 @@ Both nets contained the selected board terminal and `T:sensor/Trig`.
 The native results are test-only. Snapshot digests establish agreement between the supplied topology and report. Catalog and fact-set digests establish agreement between each report record and its parent. The topology has no independent catalog digest. The projection performs internal consistency checks and supplies no authority about hardware safety, source trust, currentness, or electrical behavior. The output preserves native evidence IDs and the exception message contains only the error code. No dependencies, new assets, network experiments, UI, or new engineering rules were introduced.
 
 The implementation can be reviewed using the pinned continuation head and the five-path diff. Rollback is available through an owner-authorized revert of the Rev 1.1 commits. The Rev 1.0 blocked history remains in Git. Submitting this report for owner review does not authorize another task.
+
+## Rev 1.1 Git publication
+
+Both working and staged whitespace checks exited 0. The staged review confirmed the five allowlisted paths, verified the Rev 1.1 handoff SHA-256 `28a749a5c34cb283dfb607c73d8f194bce0a0c7332349a77f9cc7fe08fd436cf` against the exact attachment bytes, checked local links, and found no credential signatures.
+
+`git push origin codex/ux08-t02a-source-native-gpio-projection` exited 0. Independent `git ls-remote --heads origin` and fetch verified implementation commit `8c735640c9a94265465f7659b01cda6a7b9c50e7` on the existing task branch, the engineering baseline ref at `78168099a649887dfd8f874d7953fff9428fe76c`, and `main` at `b1db3e947d04508ca22d4ba55e3172616620bad2`. This report-only follow-up records the observed implementation publication.
